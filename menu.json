@@ -1,0 +1,18 @@
+{
+  "_note": "SAMPLE DATA. Replace with the real hostel menu and mess timings.",
+  "meals": [
+    { "name": "Breakfast", "start": "07:30", "end": "09:00" },
+    { "name": "Lunch",     "start": "12:30", "end": "14:00" },
+    { "name": "Snacks",    "start": "16:30", "end": "17:30" },
+    { "name": "Dinner",    "start": "19:30", "end": "21:00" }
+  ],
+  "days": {
+    "Monday":    { "Breakfast": "Idli, sambar, chutney", "Lunch": "Rice, sambar, thoran, pickle", "Snacks": "Tea, banana fry", "Dinner": "Chapati, veg curry" },
+    "Tuesday":   { "Breakfast": "Puttu, kadala curry", "Lunch": "Rice, rasam, cabbage thoran", "Snacks": "Tea, biscuits", "Dinner": "Rice, dal curry, omelette" },
+    "Wednesday": { "Breakfast": "Dosa, chutney", "Lunch": "Rice, fish curry, thoran", "Snacks": "Tea, samosa", "Dinner": "Chapati, egg curry" },
+    "Thursday":  { "Breakfast": "Upma, banana", "Lunch": "Rice, sambar, avial", "Snacks": "Tea, pazhampori", "Dinner": "Rice, chicken curry" },
+    "Friday":    { "Breakfast": "Appam, stew", "Lunch": "Rice, moru curry, beans thoran", "Snacks": "Tea, sundal", "Dinner": "Chapati, mixed veg" },
+    "Saturday":  { "Breakfast": "Poori, potato masala", "Lunch": "Veg biriyani, raita", "Snacks": "Tea, cake", "Dinner": "Rice, sambar, papad" },
+    "Sunday":    { "Breakfast": "Idiyappam, kadala curry", "Lunch": "Rice, chicken curry, thoran", "Snacks": "Tea, bonda", "Dinner": "Fried rice, gobi manchurian" }
+  }
+}
