@@ -13,12 +13,12 @@ import {
       shows the menu and timetable, but ratings/status/wall are off.
 ---------------------------------------------------------------- */
 const firebaseConfig = {
-  apiKey: "PASTE_HERE",
-  authDomain: "PASTE_HERE",
-  projectId: "PASTE_HERE",
-  storageBucket: "PASTE_HERE",
-  messagingSenderId: "PASTE_HERE",
-  appId: "PASTE_HERE"
+  apiKey: "AIzaSyDAom6PmaYuSN75PrsVRSGzCHHrvbF8Q8c",
+  authDomain: "og-sabha.firebaseapp.com",
+  projectId: "og-sabha",
+  storageBucket: "og-sabha.firebasestorage.app",
+  messagingSenderId: "692594007498",
+  appId: "1:692594007498:web:819205fd17a8add28c8333"
 };
 
 // Add more words you want blocked on the wall (lowercase).
