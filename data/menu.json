@@ -1,18 +1,69 @@
 {
-  "_note": "SAMPLE DATA. Replace with the real hostel menu and mess timings.",
+  "_note": "Real DCSMAT menu, valid till December 2026 (from 26 Oct 2026). Meal TIMINGS are guesses: edit them to the real mess timings. Menu may change with supply of raw materials.",
   "meals": [
-    { "name": "Breakfast", "start": "07:30", "end": "09:00" },
-    { "name": "Lunch",     "start": "12:30", "end": "14:00" },
-    { "name": "Snacks",    "start": "16:30", "end": "17:30" },
-    { "name": "Dinner",    "start": "19:30", "end": "21:00" }
+    {
+      "name": "Breakfast",
+      "start": "07:30",
+      "end": "09:00"
+    },
+    {
+      "name": "Lunch",
+      "start": "12:30",
+      "end": "14:00"
+    },
+    {
+      "name": "Snacks",
+      "start": "16:30",
+      "end": "17:30"
+    },
+    {
+      "name": "Dinner",
+      "start": "19:30",
+      "end": "21:00"
+    }
   ],
   "days": {
-    "Monday":    { "Breakfast": "Idli, sambar, chutney", "Lunch": "Rice, sambar, thoran, pickle", "Snacks": "Tea, banana fry", "Dinner": "Chapati, veg curry" },
-    "Tuesday":   { "Breakfast": "Puttu, kadala curry", "Lunch": "Rice, rasam, cabbage thoran", "Snacks": "Tea, biscuits", "Dinner": "Rice, dal curry, omelette" },
-    "Wednesday": { "Breakfast": "Dosa, chutney", "Lunch": "Rice, fish curry, thoran", "Snacks": "Tea, samosa", "Dinner": "Chapati, egg curry" },
-    "Thursday":  { "Breakfast": "Upma, banana", "Lunch": "Rice, sambar, avial", "Snacks": "Tea, pazhampori", "Dinner": "Rice, chicken curry" },
-    "Friday":    { "Breakfast": "Appam, stew", "Lunch": "Rice, moru curry, beans thoran", "Snacks": "Tea, sundal", "Dinner": "Chapati, mixed veg" },
-    "Saturday":  { "Breakfast": "Poori, potato masala", "Lunch": "Veg biriyani, raita", "Snacks": "Tea, cake", "Dinner": "Rice, sambar, papad" },
-    "Sunday":    { "Breakfast": "Idiyappam, kadala curry", "Lunch": "Rice, chicken curry, thoran", "Snacks": "Tea, bonda", "Dinner": "Fried rice, gobi manchurian" }
+    "Sunday": {
+      "Breakfast": "Uppumavu, tea",
+      "Lunch": "Malabari chicken biriyani / veg biriyani, salad, pickle, fruit salad (Veg: cauliflower fry)",
+      "Snacks": "Uzhunnu vada, tea",
+      "Dinner": "Rice / kanji, sambar, soya fry, thoran, pappadam, kondattam"
+    },
+    "Monday": {
+      "Breakfast": "Idli, sambar, tomato chutney, tea",
+      "Lunch": "Rice, thoran (cheera), ladyfinger & potato, sambar, pappadam, mango pickle, semiya payasam",
+      "Snacks": "Paripuvada, coffee",
+      "Dinner": "Chappathi, egg curry, lemon tea (Veg: veg curry)"
+    },
+    "Tuesday": {
+      "Breakfast": "Poori, potato curry, tea",
+      "Lunch": "Ghee rice, butter chicken, mango pickle, salad (Veg: paneer butter masala)",
+      "Snacks": "Sugiyan, coffee",
+      "Dinner": "Palappam, veg stew, tea"
+    },
+    "Wednesday": {
+      "Breakfast": "Puttu, kadala curry, banana, tea",
+      "Lunch": "Rice, sambar, avial, pacha moru, egg, soya bean fry, pickle",
+      "Snacks": "Cutlet, sauce, tea",
+      "Dinner": "Rice, fish curry, thoran (cabbage), pulisserry, pickle (Veg: cauliflower fry)"
+    },
+    "Thursday": {
+      "Breakfast": "Palappam, egg curry, tea",
+      "Lunch": "Rice, moru curry, vanpayar curry, pappadam, pineapple pachadi, rasam, pickle, payasam",
+      "Snacks": "Samosa, tea",
+      "Dinner": "Porotta, chicken curry (Veg: paneer masala), tea"
+    },
+    "Friday": {
+      "Breakfast": "Thattu dosa, sambar, chutney, tea",
+      "Lunch": "Rice, chicken fry, pulisserry, pickle (Veg: cauliflower fry)",
+      "Snacks": "Banana fry, coffee",
+      "Dinner": "Puttu, kadala curry, tea"
+    },
+    "Saturday": {
+      "Breakfast": "Wheat battura, chana masala, tea",
+      "Lunch": "Rice, fish curry, carrot thoran, pulissery, pickle (Veg: potato and ladyfinger)",
+      "Snacks": "Ullivada, tea",
+      "Dinner": "Masala dosa, chutney, sambar"
+    }
   }
 }
