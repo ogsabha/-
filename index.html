@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DCSMAT Hub</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header>
+    <h1>DCSMAT Hub</h1>
+    <p class="muted">Food · Classes · Campus wall</p>
+  </header>
+
+  <nav>
+    <button class="tab active" data-tab="food">Food</button>
+    <button class="tab" data-tab="classes">Classes</button>
+    <button class="tab" data-tab="wall">Wall</button>
+  </nav>
+
+  <p id="setup-note" class="note" hidden>
+    Firebase is not connected yet. The menu and timetable work, but ratings,
+    live teacher status and the wall turn on after you paste your Firebase config in app.js.
+  </p>
+
+  <main>
+    <!-- FOOD -->
+    <section id="food" class="panel active">
+      <label>Day
+        <select id="day-select"></select>
+      </label>
+      <div id="food-list"></div>
+    </section>
+
+    <!-- CLASSES -->
+    <section id="classes" class="panel">
+      <label>Your class
+        <select id="class-select"></select>
+      </label>
+      <div id="class-now"></div>
+      <h2>Today's timetable</h2>
+      <div id="class-table"></div>
+    </section>
+
+    <!-- WALL -->
+    <section id="wall" class="panel">
+      <form id="post-form">
+        <textarea id="post-text" maxlength="300" rows="4"
+          placeholder="Share a thought, confession or suggestion. Please do not name or target anyone."></textarea>
+        <div class="row">
+          <span id="post-count" class="muted">0 / 300</span>
+          <button type="submit">Post anonymously</button>
+        </div>
+        <p id="post-msg" class="muted"></p>
+      </form>
+
+      <div id="pending-box" hidden>
+        <h2>Waiting for approval</h2>
+        <div id="pending-list"></div>
+      </div>
+
+      <h2>Posts</h2>
+      <div id="post-list"></div>
+    </section>
+  </main>
+
+  <footer>
+    <details>
+      <summary>Staff / class rep login</summary>
+      <form id="login-form">
+        <input id="login-email" type="email" placeholder="Email" autocomplete="username" required>
+        <input id="login-pass" type="password" placeholder="Password" autocomplete="current-password" required>
+        <button type="submit">Log in</button>
+      </form>
+      <div id="auth-status" class="muted"></div>
+    </details>
+    <p class="muted">Made by students, not an official college site.</p>
+  </footer>
+
+  <script type="module" src="app.js"></script>
+</body>
+</html>
