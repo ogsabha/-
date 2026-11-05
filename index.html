@@ -25,15 +25,15 @@
     <div class="hero-text">
       <span class="chip" id="greet">hey 👋</span>
       <h1><span>DCSMAT</span><span id="h1-line">eat up.</span></h1>
-      <p class="sub">Mess menu, live classes and an anonymous wall. Made by students, Vagamon.</p>
+      <p class="sub">Mess menu, live classes, an anonymous wall and a skill board. Made by students, Vagamon.</p>
       <p class="hint">psst: drag the stickers</p>
     </div>
   </header>
 
   <div class="marquee" aria-hidden="true">
     <div class="track">
-      <span>✦ mess menu ✦ live classes ✦ the wall ✦ made by students ✦ vagamon ✦ rate your lunch ✦ no one will know ✦</span>
-      <span>✦ mess menu ✦ live classes ✦ the wall ✦ made by students ✦ vagamon ✦ rate your lunch ✦ no one will know ✦</span>
+      <span>✦ mess menu ✦ live classes ✦ the wall ✦ gigs ✦ hire a classmate ✦ made by students ✦ vagamon ✦ rate your lunch ✦ no one will know ✦</span>
+      <span>✦ mess menu ✦ live classes ✦ the wall ✦ gigs ✦ hire a classmate ✦ made by students ✦ vagamon ✦ rate your lunch ✦ no one will know ✦</span>
     </div>
   </div>
 
@@ -43,6 +43,7 @@
     <button class="tab active" data-tab="food">🍛 Food</button>
     <button class="tab" data-tab="classes">📚 Classes</button>
     <button class="tab" data-tab="wall">💬 Wall</button>
+    <button class="tab" data-tab="gigs">🛠️ Gigs</button>
   </nav>
 
   <p id="setup-note" class="note" hidden>
@@ -89,6 +90,66 @@
       <h2>Posts</h2>
       <div id="post-list"></div>
     </section>
+
+    <!-- GIGS -->
+    <section id="gigs" class="panel">
+      <div class="seg" role="group" aria-label="Show">
+        <button type="button" class="seg-btn active" data-kind="all">All</button>
+        <button type="button" class="seg-btn" data-kind="wanted">🔍 Wanted</button>
+        <button type="button" class="seg-btn" data-kind="offer">✋ Offering</button>
+      </div>
+
+      <label>Category
+        <select id="gig-cat-filter"></select>
+      </label>
+
+      <details id="gig-compose" class="compose">
+        <summary>＋ Post a gig or advertise your skill</summary>
+        <form id="gig-form">
+          <label>I want to
+            <select id="gig-kind">
+              <option value="wanted">find someone for a job</option>
+              <option value="offer">offer my skill</option>
+            </select>
+          </label>
+          <label>Title
+            <input id="gig-title" maxlength="60" required placeholder="Poster for the fest / I edit reels / Maths tutor">
+          </label>
+          <label>Category
+            <select id="gig-cat"></select>
+          </label>
+          <label>Details
+            <textarea id="gig-details" maxlength="300" rows="4" required
+              placeholder="What is the job, or what can you do? Add deadlines, tools, samples."></textarea>
+          </label>
+          <label>Pay / rate (optional)
+            <input id="gig-pay" maxlength="30" placeholder="₹500, free, negotiable">
+          </label>
+          <label>Your name (optional)
+            <input id="gig-name" maxlength="30" placeholder="Leave empty to stay a mystery">
+          </label>
+          <p class="muted">Your contact is never shown on the post. People reply through the site and only you can read the replies.</p>
+          <div class="row">
+            <span id="gig-count" class="muted">0 / 300</span>
+            <button type="submit">Post it</button>
+          </div>
+          <p id="gig-msg" class="muted"></p>
+        </form>
+      </details>
+
+      <div id="gig-mine-box" hidden>
+        <h2>Your posts</h2>
+        <div id="gig-mine"></div>
+      </div>
+
+      <div id="gig-pending-box" hidden>
+        <h2>Gigs waiting for approval</h2>
+        <div id="gig-pending"></div>
+      </div>
+
+      <h2>The board</h2>
+      <div id="gig-list"></div>
+    </section>
   </main>
 
   <footer>
@@ -103,6 +164,28 @@
     </details>
     <p class="muted">Made by students, not an official college site.</p>
   </footer>
+
+  <dialog id="apply-dialog">
+    <form id="apply-form">
+      <h3 id="apply-title">Apply</h3>
+      <p id="apply-sub" class="muted"></p>
+      <label>Your name
+        <input id="apply-name" maxlength="40" required autocomplete="name">
+      </label>
+      <label><span id="apply-msg-label">Message</span>
+        <textarea id="apply-message" maxlength="300" rows="4" required></textarea>
+      </label>
+      <label>How can they reach you?
+        <input id="apply-contact" maxlength="60" required placeholder="WhatsApp number or Instagram handle">
+      </label>
+      <p class="muted">Only the person who posted this can see your details.</p>
+      <div class="row">
+        <button type="button" class="ghost" id="apply-cancel">Cancel</button>
+        <button type="submit">Send</button>
+      </div>
+      <p id="apply-status" class="muted"></p>
+    </form>
+  </dialog>
 
   <script type="module" src="app.js"></script>
 </body>
