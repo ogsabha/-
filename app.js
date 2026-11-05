@@ -118,6 +118,16 @@ document.querySelectorAll(".tab").forEach((btn) => {
   btn.addEventListener("click", () => {
     document.querySelectorAll(".tab").forEach((b) => b.classList.toggle("active", b === btn));
     document.querySelectorAll(".panel").forEach((p) => p.classList.toggle("active", p.id === btn.dataset.tab));
+    document.body.dataset.theme = btn.dataset.tab; // switches the whole look
+    const subs = {
+      food: "Today's menu, what's being served now, and how it tastes.",
+      classes: "Stay on top of your day: who is teaching, and where.",
+      wall: "Say what you can't say out loud. Anonymous, always kind."
+    };
+    const sub = document.querySelector(".sub");
+    if (sub) sub.textContent = subs[btn.dataset.tab];
+    document.querySelector('meta[name="theme-color"]')
+      ?.setAttribute("content", { food: "#f7f4ef", classes: "#f4f3ef", wall: "#0b0a08" }[btn.dataset.tab]);
   });
 });
 
@@ -488,7 +498,7 @@ initWall();
 
 /* ---------- interactive hero ---------- */
 const hero = $("hero");
-const lines = { food: "the mess", classes: "the classes", wall: "the sabha" };
+const lines = { food: "a taste of the mess", classes: "a clearer day", wall: "the sabha, in whispers" };
 document.querySelectorAll(".tab").forEach((b) =>
   b.addEventListener("click", () => { $("h1-line").textContent = lines[b.dataset.tab]; }));
 
