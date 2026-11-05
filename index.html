@@ -4,21 +4,20 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DCSMAT Hub</title>
-  <meta name="theme-color" content="#2f7a55">
+  <meta name="theme-color" content="#0b0b0b">
   <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Hanken+Grotesk:wght@400;600;700&display=swap">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bowlby+One&family=Space+Grotesk:wght@400;700&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header class="hero">
-    <div class="wrap">
-      <h1>DCSMAT Hub</h1>
-      <p>Mess menu, live classes and the campus wall for Vagamon.</p>
+  <header class="hero" id="hero">
+    <div class="blob b1"><svg class="doodle" viewBox="0 0 100 100" aria-hidden="true"><ellipse cx="50" cy="46" rx="40" ry="11" stroke-width="0"/><path d="M33 42a17 15 0 0 1 34 0" fill="none" stroke-width="3"/><path d="M36 58l-9 30M50 60v30M64 58l9 30" fill="none" stroke-width="2.5" stroke-dasharray="3 5"/></svg><span class="star" style="left:18%;top:14%">✦</span></div>
+    <div class="blob b2"><svg class="doodle" id="planet" viewBox="0 0 100 100" role="img" aria-label="Planet. Tap to spin."><circle cx="50" cy="50" r="22" stroke-width="0"/><path d="M36 45q14-8 28 0M34 55q16 8 32 0" fill="none" stroke="var(--ink)" stroke-width="2.5"/><ellipse cx="50" cy="50" rx="44" ry="10" fill="none" stroke-width="3" transform="rotate(-18 50 50)"/></svg><span class="star" style="right:24%;top:12%">✦</span></div>
+    <div class="blob b3"><span class="star">✦</span></div>
+    <div class="wrap hero-text">
+      <h1><span>Explore</span><span id="h1-line">the campus</span></h1>
+      <p class="sub">Mess menu, live classes and an anonymous wall. Made by students, Vagamon.</p>
     </div>
-    <svg viewBox="0 0 720 56" preserveAspectRatio="none" aria-hidden="true">
-      <path class="far" d="M0 30 C90 6 150 8 230 26 S380 4 470 20 S640 6 720 24 V56 H0Z"/>
-      <path class="near" d="M0 44 C100 26 190 30 280 42 S470 28 560 40 S680 34 720 40 V56 H0Z"/>
-    </svg>
   </header>
   <div id="now-strip" class="now" aria-live="polite"></div>
 
