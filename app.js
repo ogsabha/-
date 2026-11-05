@@ -921,3 +921,6 @@ function noteColor(id) {
   for (const ch of String(id)) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
   return h % 4;
 }
+
+/* ---------- installable app (PWA) ---------- */
+if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
