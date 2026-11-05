@@ -203,3 +203,45 @@ footer form{display:grid;gap:8px;margin-top:10px}
 .burst{position:fixed;z-index:99;pointer-events:none;font-size:1.4rem;will-change:transform,opacity}
 
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* =========================================================
+   GIGS tab: mint + hot pink
+========================================================= */
+body[data-theme="gigs"]{
+  --bg:#C9F4E3;--accent:#FF4F8B;--on-accent:#ffffff;--w1:#FFE770;--w2:#CFC4FF;--dot:rgba(26,20,35,.13);
+}
+
+/* four tabs on a small phone */
+@media(max-width:480px){.tab{font-size:.82rem;padding:10px 2px}}
+
+.seg{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
+.seg-btn{padding:8px 16px;font-size:.9rem;background:var(--card);color:var(--ink)}
+.seg-btn.active{background:var(--accent);color:var(--on-accent)}
+
+.compose{background:var(--card);border:2.5px solid var(--stroke);border-radius:var(--radius);
+  box-shadow:5px 5px 0 var(--sh);padding:4px 18px;margin-bottom:20px}
+.compose summary{cursor:pointer;font-family:var(--head);font-weight:800;font-size:1.15rem;padding:12px 0;list-style:none}
+.compose summary::-webkit-details-marker{display:none}
+.compose[open] summary{border-bottom:2.5px dashed var(--stroke);margin-bottom:16px}
+.compose form{padding-bottom:14px}
+
+/* board cards: coloured notes, same as the wall */
+.card.gig{color:#1A1423;border-color:#1A1423;padding:18px 20px}
+.card.gig h3{margin:12px 0 4px}
+.card.gig .muted{color:#1A1423;opacity:.65}
+.card.gig button.ghost{color:#1A1423;border-color:#1A1423}
+.card.gig.closed{opacity:.6;filter:grayscale(.6)}
+
+/* private replies under "Your posts" */
+.resp{border:2px dashed var(--stroke);border-radius:14px;padding:10px 14px;margin-top:12px}
+.resp p{margin:4px 0}
+.btnlink{display:inline-block;padding:6px 14px;font-size:.82rem;font-weight:700;text-decoration:none;
+  border:2.5px solid var(--stroke);border-radius:999px;background:var(--good);color:#1A1423;box-shadow:2px 2px 0 var(--sh)}
+.btnlink:hover{transform:translate(-1px,-1px);box-shadow:4px 4px 0 var(--sh)}
+
+/* apply popup */
+dialog{width:min(480px,calc(100% - 32px));padding:22px;border:2.5px solid var(--stroke);border-radius:var(--radius);
+  background:var(--card);color:var(--ink);box-shadow:8px 8px 0 var(--sh)}
+dialog::backdrop{background:rgba(26,20,35,.55)}
+dialog label{margin:14px 0 0}
+dialog .row{margin-top:18px}
