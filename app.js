@@ -104,10 +104,10 @@ function renderNow() {
   const classTitle = cur ? cur.subject : nxt ? `Next: ${nxt.subject}` : "No more classes today";
   const classSub = cur ? cur.teacher : nxt ? `${fmt12(per(nxt.period).start)} · ${nxt.teacher}` : "";
   box.replaceChildren(
-    el("div", {}, el("span", { class: "k", text: "In the mess" }),
+    el("div", {}, el("span", { class: "k", text: "🍽️ In the mess" }),
       el("strong", { text: meal ? `${meal.name} is being served` : "Nothing being served" }),
       el("span", { class: "muted", text: mealText })),
-    el("div", {}, el("span", { class: "k", text: "In class" }),
+    el("div", {}, el("span", { class: "k", text: "📚 In class" }),
       el("strong", { text: classTitle }),
       el("span", { class: "muted", text: classSub }))
   );
@@ -120,14 +120,16 @@ document.querySelectorAll(".tab").forEach((btn) => {
     document.querySelectorAll(".panel").forEach((p) => p.classList.toggle("active", p.id === btn.dataset.tab));
     document.body.dataset.theme = btn.dataset.tab; // switches the whole look
     const subs = {
-      food: "Today's menu, what's being served now, and how it tastes.",
+      food: "Today's menu, what's being served now, and how it actually tastes.",
       classes: "Stay on top of your day: who is teaching, and where.",
       wall: "Say what you can't say out loud. Anonymous, always kind."
     };
     const sub = document.querySelector(".sub");
     if (sub) sub.textContent = subs[btn.dataset.tab];
     document.querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", { food: "#f7f4ef", classes: "#f4f3ef", wall: "#0b0a08" }[btn.dataset.tab]);
+      ?.setAttribute("content", { food: "#FFF0C2", classes: "#DDD6FF", wall: "#130F1E" }[btn.dataset.tab]);
+    const r = btn.getBoundingClientRect();
+    burst(r.left + r.width / 2, r.top + r.height / 2, TAB_EMOJI[btn.dataset.tab], 8);
   });
 });
 
@@ -172,8 +174,8 @@ function renderFood() {
     const live = isToday && nm >= toMin(m.start) && nm < toMin(m.end);
     const card = el("div", { class: "card" + (live ? " live" : "") },
       el("div", { class: "row" },
-        el("h3", { text: m.name }),
-        live ? el("span", { class: "badge", text: "Serving now" }) : null
+        el("h3", { text: `${MEAL_EMOJI[m.name] || "🍽️"} ${m.name}` }),
+        live ? el("span", { class: "badge pulse", text: "Serving now" }) : null
       ),
       el("p", { class: "muted", text: `${fmt12(m.start)} – ${fmt12(m.end)}` }),
       el("p", { text: (menu.days[day] || {})[m.name] || "Not added yet" })
@@ -192,7 +194,7 @@ function renderFood() {
             class: i <= mine ? "on" : "",
             "aria-label": `${i} star${i > 1 ? "s" : ""}`,
             text: "★",
-            onclick: () => rate(m.name, i)
+            onclick: (e) => { burst(e.clientX, e.clientY, ["⭐", "✨", "🎉"], 12); rate(m.name, i); }
           }));
         }
         card.append(stars);
@@ -265,14 +267,17 @@ function renderClasses() {
   nowBox.replaceChildren();
   if (current) {
     const p = periodOf(current.period);
+    const startM = toMin(p.start), endM = toMin(p.end);
+    const pct = Math.round(((nm - startM) / (endM - startM)) * 100);
     nowBox.append(el("div", { class: "card live" },
-      el("div", { class: "row" }, el("h3", { text: "Now" }), ready ? statusBadge(cls, current.period) : null),
+      el("div", { class: "row" }, el("h3", { text: "🔴 Now" }), ready ? statusBadge(cls, current.period) : null),
       el("p", { text: `Period ${current.period} · ${current.subject}` }),
-      el("p", { class: "muted", text: `${current.teacher} · ${fmt12(p.start)} – ${fmt12(p.end)}` })
+      el("p", { class: "muted", text: `${current.teacher} · ${fmt12(p.start)} – ${fmt12(p.end)} · ${endM - nm} min left` }),
+      el("div", { class: "bar", "aria-hidden": "true" }, el("i", { style: `--w:${pct}%` }))
     ));
   } else {
     nowBox.append(el("div", { class: "card" },
-      el("h3", { text: "No class right now" }),
+      el("h3", { text: "😴 No class right now" }),
       next
         ? el("p", { class: "muted", text: `Next: ${next.subject} with ${next.teacher} at ${fmt12(periodOf(next.period).start)}` })
         : el("p", { class: "muted", text: slots.length ? "No more classes today." : "No classes today." })
@@ -354,6 +359,7 @@ function initWall() {
       text.value = "";
       $("post-count").textContent = "0 / 300";
       msg.textContent = "Thanks! Your post will appear after it is approved.";
+      burst(innerWidth / 2, innerHeight / 2, ["💌", "✨", "🤫"], 14);
     } catch (err) {
       console.error(err);
       msg.textContent = "Could not post. Try again later.";
@@ -410,7 +416,7 @@ function renderWall() {
       onclick: () => reportPost(p.id)
     }));
     if (staff) actions.append(el("button", { class: "danger", text: `Delete (${p.reports || 0} reports)`, onclick: () => removePost(p.id) }));
-    list.append(el("div", { class: "card" },
+    list.append(el("div", { class: `card post c${noteColor(p.id)}` },
       el("p", { text: p.text }),
       el("p", { class: "muted", text: postTime(p) }),
       actions
@@ -498,9 +504,20 @@ initWall();
 
 /* ---------- interactive hero ---------- */
 const hero = $("hero");
-const lines = { food: "a taste of the mess", classes: "a clearer day", wall: "the sabha, in whispers" };
+const lines = { food: "eat up.", classes: "show up.", wall: "speak up." };
 document.querySelectorAll(".tab").forEach((b) =>
-  b.addEventListener("click", () => { $("h1-line").textContent = lines[b.dataset.tab]; }));
+  b.addEventListener("click", () => {
+    const h = $("h1-line");
+    h.textContent = lines[b.dataset.tab];
+    h.classList.remove("pop"); void h.offsetWidth; h.classList.add("pop");
+  }));
+
+// Time-of-day greeting chip.
+(() => {
+  const h = new Date().getHours();
+  const hi = h < 5 ? "late night? 🦉" : h < 12 ? "good morning ☀️" : h < 17 ? "good afternoon 🌤️" : h < 21 ? "good evening 🌆" : "night owl 🌙";
+  $("greet").textContent = `${hi} · ${todayName()}`;
+})();
 
 // Blobs drift and the headline's 3D shadow swings away from your finger or mouse.
 if (hero && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
@@ -514,7 +531,57 @@ if (hero && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
     hero.style.setProperty("--sy", (3 + (0.5 - py) * 4).toFixed(2));
   });
 }
-const planet = $("planet");
-planet.addEventListener("click", () => {
-  planet.classList.remove("spin"); void planet.getBoundingClientRect(); planet.classList.add("spin");
+
+/* ---------- draggable stickers ---------- */
+document.querySelectorAll(".sticker").forEach((s) => {
+  let sx = 0, sy = 0, ox = 0, oy = 0, moved = false;
+  s.addEventListener("pointerdown", (e) => {
+    s.setPointerCapture(e.pointerId);
+    sx = e.clientX; sy = e.clientY; moved = false;
+    s.dataset.dragging = "1";
+  });
+  s.addEventListener("pointermove", (e) => {
+    if (!s.dataset.dragging) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
+    if (Math.abs(dx) + Math.abs(dy) > 4) moved = true;
+    s.style.transform = `translate(${ox + dx}px, ${oy + dy}px)`;
+  });
+  const end = (e) => {
+    if (!s.dataset.dragging) return;
+    delete s.dataset.dragging;
+    ox += e.clientX - sx; oy += e.clientY - sy;
+    if (!moved) {
+      s.classList.remove("spin"); void s.offsetWidth; s.classList.add("spin");
+      burst(e.clientX, e.clientY, ["✨", "⭐", "💫"], 10);
+    }
+  };
+  s.addEventListener("pointerup", end);
+  s.addEventListener("pointercancel", end);
 });
+
+/* ---------- emoji bursts (clicks, ratings, posting) ---------- */
+const MEAL_EMOJI = { Breakfast: "🍳", Lunch: "🍛", Snacks: "🍟", Dinner: "🌙" };
+const TAB_EMOJI = { food: ["🍛", "🍟", "🧁"], classes: ["📚", "✏️", "💡"], wall: ["💬", "🤫", "🌙"] };
+
+function burst(x, y, emojis, n = 10) {
+  if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  for (let i = 0; i < n; i++) {
+    const p = document.createElement("span");
+    p.className = "burst";
+    p.textContent = emojis[i % emojis.length];
+    p.style.left = `${x}px`; p.style.top = `${y}px`;
+    document.body.append(p);
+    const a = Math.random() * Math.PI * 2, d = 50 + Math.random() * 90;
+    p.animate([
+      { transform: "translate(-50%,-50%) scale(.4)", opacity: 1 },
+      { transform: `translate(calc(-50% + ${Math.cos(a) * d}px), calc(-50% + ${Math.sin(a) * d - 30}px)) scale(1.1) rotate(${Math.random() * 120 - 60}deg)`, opacity: 0 }
+    ], { duration: 650 + Math.random() * 400, easing: "cubic-bezier(.2,.8,.3,1)" }).onfinish = () => p.remove();
+  }
+}
+
+// Each wall post gets a stable sticky-note colour from its id.
+function noteColor(id) {
+  let h = 0;
+  for (const ch of String(id)) h = (h * 31 + ch.charCodeAt(0)) >>> 0;
+  return h % 4;
+}
