@@ -1,10 +1,10 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {
-  getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc,
+  getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, getDocs,
   query, where, onSnapshot, serverTimestamp, increment
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import {
-  getAuth, signInWithEmailAndPassword, signOut, onAuthStateChanged
+  getAuth, signInWithEmailAndPassword, signInAnonymously, signOut, onAuthStateChanged
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-auth.js";
 
 /* ---------------------------------------------------------------
@@ -72,7 +72,9 @@ function el(tag, props = {}, ...kids) {
   return e;
 }
 
-let currentUser = null;
+let currentUser = null; // staff only (email login)
+let me = null;          // anyone signed in, including anonymous visitors
+let anonFailed = false;
 
 // Looks in data/ first, then the main folder, so it works wherever the JSON files were uploaded.
 async function loadJSON(name) {
@@ -122,12 +124,13 @@ document.querySelectorAll(".tab").forEach((btn) => {
     const subs = {
       food: "Today's menu, what's being served now, and how it actually tastes.",
       classes: "Stay on top of your day: who is teaching, and where.",
-      wall: "Say what you can't say out loud. Anonymous, always kind."
+      wall: "Say what you can't say out loud. Anonymous, always kind.",
+      gigs: "Need a hand? Got a skill? Post it, get hired, earn a little."
     };
     const sub = document.querySelector(".sub");
     if (sub) sub.textContent = subs[btn.dataset.tab];
     document.querySelector('meta[name="theme-color"]')
-      ?.setAttribute("content", { food: "#FFF0C2", classes: "#DDD6FF", wall: "#130F1E" }[btn.dataset.tab]);
+      ?.setAttribute("content", { food: "#FFF0C2", classes: "#DDD6FF", wall: "#130F1E", gigs: "#C9F4E3" }[btn.dataset.tab]);
     const r = btn.getBoundingClientRect();
     burst(r.left + r.width / 2, r.top + r.height / 2, TAB_EMOJI[btn.dataset.tab], 8);
   });
@@ -462,6 +465,332 @@ async function removePost(id) {
 }
 
 /* =================================================================
+   GIGS (skill board: "wanted" jobs and "offering" skills)
+   - Posts wait for staff approval, like the wall.
+   - Replies are private: only the person who posted (and staff) can read them.
+   - Visitors get an invisible anonymous Firebase login so the rules can tell
+     "who posted what". Turn on Authentication > Sign-in method > Anonymous.
+================================================================= */
+const GIG_CATS = ["Design", "Coding & tech", "Photo & video", "Tutoring", "Writing & editing", "Music & events", "Errands & help", "Other"];
+const GIG_KIND = { wanted: "🔍 Wanted", offer: "✋ Offering" };
+let gigsApproved = [];
+let gigsPending = [];
+let myGigs = [];
+let gigResponses = {}; // gigId -> [reply, ...] (only loaded for your own gigs)
+let gigFilter = { kind: "all", cat: "all" };
+let applyTarget = null;
+let unsubGigsPending = null;
+let unsubMine = null;
+const unsubResponses = new Map();
+const reportedGigsKey = "reportedGigs";
+const reportedGigs = () => new Set(JSON.parse(store.get(reportedGigsKey, "[]")));
+const appliedKey = (id) => `applied_${id}`;
+const newestFirst = (a, b) => (b.createdAt?.seconds || 0) - (a.createdAt?.seconds || 0);
+
+function initGigs() {
+  const filterSel = $("gig-cat-filter");
+  filterSel.append(el("option", { value: "all", text: "All categories" }));
+  GIG_CATS.forEach((c) => {
+    filterSel.append(el("option", { value: c, text: c }));
+    $("gig-cat").append(el("option", { value: c, text: c }));
+  });
+  filterSel.addEventListener("change", () => { gigFilter.cat = filterSel.value; renderGigs(); });
+
+  document.querySelectorAll(".seg-btn").forEach((b) =>
+    b.addEventListener("click", () => {
+      gigFilter.kind = b.dataset.kind;
+      document.querySelectorAll(".seg-btn").forEach((x) => x.classList.toggle("active", x === b));
+      renderGigs();
+    }));
+
+  const details = $("gig-details");
+  details.addEventListener("input", () => { $("gig-count").textContent = `${details.value.length} / 300`; });
+  $("gig-name").value = store.get("gigName", "");
+
+  $("gig-form").addEventListener("submit", submitGig);
+  $("apply-form").addEventListener("submit", submitApplication);
+  $("apply-cancel").addEventListener("click", () => $("apply-dialog").close());
+
+  if (ready) {
+    onSnapshot(query(collection(db, "gigs"), where("approved", "==", true)), (snap) => {
+      gigsApproved = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+      renderGigs();
+    });
+  } else {
+    $("gig-list").append(el("p", { class: "muted", text: "The board will show here once Firebase is connected." }));
+  }
+}
+
+// Called whenever the login state changes: (re)loads your own gigs, and pending gigs for staff.
+function subscribeGigs() {
+  unsubGigsPending?.(); unsubGigsPending = null; gigsPending = [];
+  unsubMine?.(); unsubMine = null; myGigs = [];
+  unsubResponses.forEach((u) => u()); unsubResponses.clear(); gigResponses = {};
+  if (!ready) return;
+
+  if (currentUser) {
+    unsubGigsPending = onSnapshot(
+      query(collection(db, "gigs"), where("approved", "==", false)),
+      (snap) => { gigsPending = snap.docs.map((d) => ({ id: d.id, ...d.data() })); renderGigs(); },
+      (err) => console.warn("Not allowed to read pending gigs:", err.code)
+    );
+  }
+  if (me) {
+    unsubMine = onSnapshot(
+      query(collection(db, "gigs"), where("ownerUid", "==", me.uid)),
+      (snap) => { myGigs = snap.docs.map((d) => ({ id: d.id, ...d.data() })); watchResponses(); renderGigs(); },
+      (err) => console.warn("Could not read your gigs:", err.code)
+    );
+  }
+  renderGigs();
+}
+
+function watchResponses() {
+  const ids = new Set(myGigs.filter((g) => g.approved).map((g) => g.id));
+  for (const [id, un] of unsubResponses) {
+    if (!ids.has(id)) { un(); unsubResponses.delete(id); delete gigResponses[id]; }
+  }
+  ids.forEach((id) => {
+    if (unsubResponses.has(id)) return;
+    unsubResponses.set(id, onSnapshot(
+      collection(db, "gigs", id, "responses"),
+      (snap) => {
+        gigResponses[id] = snap.docs.map((d) => ({ id: d.id, ...d.data() })).sort(newestFirst);
+        renderGigs();
+      },
+      (err) => console.warn("Could not read replies:", err.code)
+    ));
+  });
+}
+
+async function submitGig(e) {
+  e.preventDefault();
+  const msg = $("gig-msg");
+  if (!ready) { msg.textContent = "The board is not connected yet."; return; }
+  if (!me) { msg.textContent = anonFailed ? "Posting is unavailable right now." : "Still connecting. Try again in a few seconds."; return; }
+
+  const data = {
+    kind: $("gig-kind").value,
+    title: $("gig-title").value.trim(),
+    category: $("gig-cat").value,
+    details: $("gig-details").value.trim(),
+    pay: $("gig-pay").value.trim(),
+    name: $("gig-name").value.trim()
+  };
+  if (!data.title || !data.details) return;
+  if (Date.now() - Number(store.get("lastGig", 0)) < 120000) { msg.textContent = "Please wait a couple of minutes between posts."; return; }
+  const lower = Object.values(data).join(" ").toLowerCase();
+  if (BAD_WORDS.some((w) => lower.includes(w))) { msg.textContent = "Please remove rude words and try again."; return; }
+
+  try {
+    await addDoc(collection(db, "gigs"), {
+      ...data, ownerUid: me.uid, approved: false, reports: 0, status: "open", createdAt: serverTimestamp()
+    });
+    store.set("lastGig", Date.now());
+    store.set("gigName", data.name);
+    ["gig-title", "gig-details", "gig-pay"].forEach((id) => { $(id).value = ""; });
+    $("gig-count").textContent = "0 / 300";
+    msg.textContent = "Posted! It will show on the board after it is approved. You can track it under Your posts.";
+    burst(innerWidth / 2, innerHeight / 2, ["🛠️", "💸", "✨"], 14);
+  } catch (err) {
+    console.error(err);
+    msg.textContent = "Could not post. Try again later.";
+  }
+}
+
+function openApply(g) {
+  applyTarget = g;
+  const wanted = g.kind === "wanted";
+  $("apply-title").textContent = wanted ? "Apply for this gig" : "Message this person";
+  $("apply-sub").textContent = g.title;
+  $("apply-msg-label").textContent = wanted ? "Why are you a good fit?" : "What do you need?";
+  $("apply-name").value = store.get("gigApplyName", "");
+  $("apply-contact").value = store.get("gigApplyContact", "");
+  $("apply-message").value = "";
+  $("apply-status").textContent = "";
+  $("apply-dialog").showModal();
+}
+
+async function submitApplication(e) {
+  e.preventDefault();
+  const st = $("apply-status");
+  if (!ready || !me || !applyTarget) { st.textContent = "Not connected. Try again in a moment."; return; }
+  const data = {
+    name: $("apply-name").value.trim(),
+    message: $("apply-message").value.trim(),
+    contact: $("apply-contact").value.trim()
+  };
+  if (!data.name || !data.message || data.contact.length < 3) return;
+  const lower = `${data.name} ${data.message}`.toLowerCase();
+  if (BAD_WORDS.some((w) => lower.includes(w))) { st.textContent = "Please remove rude words and try again."; return; }
+
+  try {
+    // One reply per person per gig (the doc id is your anonymous id), so sending again just updates it.
+    await setDoc(doc(db, "gigs", applyTarget.id, "responses", me.uid), {
+      ...data, applicantUid: me.uid, createdAt: serverTimestamp()
+    });
+    store.set(appliedKey(applyTarget.id), "1");
+    store.set("gigApplyName", data.name);
+    store.set("gigApplyContact", data.contact);
+    $("apply-dialog").close();
+    burst(innerWidth / 2, innerHeight / 2, ["🎉", "✨", "🤝"], 14);
+    renderGigs();
+  } catch (err) {
+    console.error(err);
+    st.textContent = "Could not send. This gig may have just been closed.";
+  }
+}
+
+// 10-digit Indian numbers (or full international ones) get a WhatsApp shortcut.
+function phoneLink(contact) {
+  if (!/^[+\d\s-]{10,16}$/.test(contact.trim())) return null;
+  const d = contact.replace(/\D/g, "");
+  if (d.length < 10 || d.length > 13) return null;
+  return `https://wa.me/${d.length === 10 ? "91" + d : d}`;
+}
+
+function gigCard(g, staff, reported) {
+  const mine = !!me && g.ownerUid === me.uid;
+  const closed = g.status === "closed";
+  const applied = store.get(appliedKey(g.id)) === "1";
+  const wanted = g.kind === "wanted";
+
+  const actions = el("div", { class: "actions" });
+  if (mine) actions.append(el("span", { class: "badge grey", text: "Your post" }));
+  else if (closed) actions.append(el("span", { class: "badge grey", text: wanted ? "Filled" : "Not available" }));
+  else actions.append(el("button", {
+    text: applied ? "Sent ✓ (update)" : wanted ? "Apply" : "Hire / message",
+    onclick: () => openApply(g)
+  }));
+  if (!mine) {
+    actions.append(el("button", {
+      class: "ghost",
+      text: reported.has(g.id) ? "Reported" : "Report",
+      disabled: reported.has(g.id) ? "" : null,
+      onclick: () => reportGig(g.id)
+    }));
+  }
+  if (staff) actions.append(el("button", { class: "danger", text: `Delete (${g.reports || 0} reports)`, onclick: () => removeGig(g.id) }));
+
+  return el("div", { class: `card gig post c${noteColor(g.id)}${closed ? " closed" : ""}` },
+    el("div", { class: "row" },
+      el("span", { class: "badge", text: GIG_KIND[g.kind] || g.kind }),
+      el("span", { class: "badge", text: g.category })
+    ),
+    el("h3", { text: g.title }),
+    el("p", { text: g.details }),
+    el("p", { class: "muted", text: `${g.name || "A student"}${g.pay ? ` · ${g.pay}` : ""} · ${postTime(g)}` }),
+    actions
+  );
+}
+
+function replyRow(g, r) {
+  const wa = phoneLink(r.contact);
+  return el("div", { class: "resp" },
+    el("strong", { text: r.name }),
+    el("p", { text: r.message }),
+    el("p", { class: "muted", text: `${r.contact} · ${postTime(r)}` }),
+    el("div", { class: "actions" },
+      wa ? el("a", { class: "btnlink", href: wa, target: "_blank", rel: "noopener noreferrer", text: "WhatsApp" }) : null,
+      el("button", { class: "ghost", text: "Dismiss", onclick: () => removeResponse(g.id, r.id) })
+    )
+  );
+}
+
+function renderGigs() {
+  if (!ready) return;
+  const staff = !!currentUser;
+  const reported = reportedGigs();
+
+  // Public board
+  const list = $("gig-list");
+  list.replaceChildren();
+  const shown = gigsApproved
+    .filter((g) => staff || (g.reports || 0) < 3)
+    .filter((g) => gigFilter.kind === "all" || g.kind === gigFilter.kind)
+    .filter((g) => gigFilter.cat === "all" || g.category === gigFilter.cat)
+    .sort((a, b) => ((a.status === "closed") - (b.status === "closed")) || newestFirst(a, b));
+  if (!shown.length) list.append(el("p", { class: "muted", text: "Nothing here yet. Post the first one." }));
+  shown.forEach((g) => list.append(gigCard(g, staff, reported)));
+
+  // Your own posts, with the private replies
+  $("gig-mine-box").hidden = !myGigs.length;
+  const mine = $("gig-mine");
+  mine.replaceChildren();
+  [...myGigs].sort(newestFirst).forEach((g) => {
+    const replies = gigResponses[g.id] || [];
+    const closed = g.status === "closed";
+    const [label, tone] = !g.approved ? ["Waiting for approval", "grey"] : closed ? ["Closed", "grey"] : ["Live", "good"];
+    mine.append(el("div", { class: "card" },
+      el("div", { class: "row" },
+        el("h3", { text: g.title }),
+        el("span", { class: `badge ${tone}`, text: label })
+      ),
+      el("p", { class: "muted", text: `${GIG_KIND[g.kind]} · ${g.category} · ${replies.length} ${replies.length === 1 ? "reply" : "replies"}` }),
+      replies.map((r) => replyRow(g, r)),
+      el("div", { class: "actions" },
+        g.approved ? el("button", {
+          class: "ghost",
+          text: closed ? "Reopen" : g.kind === "wanted" ? "Mark filled" : "Close",
+          onclick: () => setGigStatus(g.id, closed ? "open" : "closed")
+        }) : null,
+        el("button", { class: "danger", text: "Delete", onclick: () => removeGig(g.id) })
+      )
+    ));
+  });
+
+  // Staff approval queue
+  $("gig-pending-box").hidden = !staff;
+  const pl = $("gig-pending");
+  pl.replaceChildren();
+  if (staff) {
+    if (!gigsPending.length) pl.append(el("p", { class: "muted", text: "Nothing waiting." }));
+    [...gigsPending].sort((a, b) => -newestFirst(a, b)).forEach((g) => {
+      pl.append(el("div", { class: "card" },
+        el("span", { class: "badge", text: `${GIG_KIND[g.kind] || g.kind} · ${g.category}` }),
+        el("h3", { text: g.title }),
+        el("p", { text: g.details }),
+        el("p", { class: "muted", text: `${g.name || "A student"}${g.pay ? ` · ${g.pay}` : ""}` }),
+        el("div", { class: "actions" },
+          el("button", { text: "Approve", onclick: () => approveGig(g.id) }),
+          el("button", { class: "danger", text: "Delete", onclick: () => removeGig(g.id) })
+        )
+      ));
+    });
+  }
+}
+
+async function reportGig(id) {
+  try {
+    await updateDoc(doc(db, "gigs", id), { reports: increment(1) });
+    const set = reportedGigs(); set.add(id);
+    store.set(reportedGigsKey, JSON.stringify([...set]));
+    renderGigs();
+  } catch (e) { console.error(e); alert("Could not report."); }
+}
+async function approveGig(id) {
+  try { await updateDoc(doc(db, "gigs", id), { approved: true }); }
+  catch (e) { console.error(e); alert("Not allowed."); }
+}
+async function setGigStatus(id, status) {
+  try { await updateDoc(doc(db, "gigs", id), { status }); }
+  catch (e) { console.error(e); alert("Could not update."); }
+}
+async function removeResponse(gigId, respId) {
+  try { await deleteDoc(doc(db, "gigs", gigId, "responses", respId)); }
+  catch (e) { console.error(e); alert("Could not remove."); }
+}
+async function removeGig(id) {
+  if (!confirm("Delete this post and all its replies?")) return;
+  try {
+    // Firestore does not delete sub-collections automatically, so clear the replies first.
+    const replies = await getDocs(collection(db, "gigs", id, "responses"));
+    await Promise.all(replies.docs.map((d) => deleteDoc(d.ref)));
+    await deleteDoc(doc(db, "gigs", id));
+  } catch (e) { console.error(e); alert("Not allowed."); }
+}
+
+/* =================================================================
    STAFF LOGIN
 ================================================================= */
 function renderAuth() {
@@ -488,10 +817,16 @@ if (ready) {
     }
   });
   onAuthStateChanged(auth, (u) => {
-    currentUser = u;
+    if (!u) {
+      // Give every visitor a silent anonymous id so the gigs board knows who posted what.
+      signInAnonymously(auth).catch((err) => { anonFailed = true; console.warn("Anonymous sign-in failed:", err.code); });
+    }
+    me = u;
+    currentUser = u && !u.isAnonymous ? u : null; // only email logins count as staff
     renderAuth();
     renderClasses();
     subscribePending();
+    subscribeGigs();
   });
 } else {
   $("login-form").hidden = true;
@@ -501,10 +836,11 @@ if (ready) {
 initFood().catch(showLoadError);
 initClasses().catch(showLoadError);
 initWall();
+initGigs();
 
 /* ---------- interactive hero ---------- */
 const hero = $("hero");
-const lines = { food: "eat up.", classes: "show up.", wall: "speak up." };
+const lines = { food: "eat up.", classes: "show up.", wall: "speak up.", gigs: "get hired." };
 document.querySelectorAll(".tab").forEach((b) =>
   b.addEventListener("click", () => {
     const h = $("h1-line");
@@ -561,7 +897,7 @@ document.querySelectorAll(".sticker").forEach((s) => {
 
 /* ---------- emoji bursts (clicks, ratings, posting) ---------- */
 const MEAL_EMOJI = { Breakfast: "🍳", Lunch: "🍛", Snacks: "🍟", Dinner: "🌙" };
-const TAB_EMOJI = { food: ["🍛", "🍟", "🧁"], classes: ["📚", "✏️", "💡"], wall: ["💬", "🤫", "🌙"] };
+const TAB_EMOJI = { food: ["🍛", "🍟", "🧁"], classes: ["📚", "✏️", "💡"], wall: ["💬", "🤫", "🌙"], gigs: ["🛠️", "💸", "🎨"] };
 
 function burst(x, y, emojis, n = 10) {
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
