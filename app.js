@@ -485,3 +485,26 @@ if (ready) {
 initFood().catch(showLoadError);
 initClasses().catch(showLoadError);
 initWall();
+
+/* ---------- interactive hero ---------- */
+const hero = $("hero");
+const lines = { food: "the mess", classes: "the classes", wall: "the sabha" };
+document.querySelectorAll(".tab").forEach((b) =>
+  b.addEventListener("click", () => { $("h1-line").textContent = lines[b.dataset.tab]; }));
+
+// Blobs drift and the headline's 3D shadow swings away from your finger or mouse.
+if (hero && !matchMedia("(prefers-reduced-motion: reduce)").matches) {
+  window.addEventListener("pointermove", (e) => {
+    const r = hero.getBoundingClientRect();
+    const px = Math.min(1, Math.max(0, (e.clientX - r.left) / r.width));
+    const py = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+    hero.style.setProperty("--px", (px - 0.5).toFixed(3));
+    hero.style.setProperty("--py", (py - 0.5).toFixed(3));
+    hero.style.setProperty("--sx", ((0.5 - px) * 6).toFixed(2));
+    hero.style.setProperty("--sy", (3 + (0.5 - py) * 4).toFixed(2));
+  });
+}
+const planet = $("planet");
+planet.addEventListener("click", () => {
+  planet.classList.remove("spin"); void planet.getBoundingClientRect(); planet.classList.add("spin");
+});
