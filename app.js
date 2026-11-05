@@ -74,6 +74,45 @@ function el(tag, props = {}, ...kids) {
 
 let currentUser = null;
 
+// Looks in data/ first, then the main folder, so it works wherever the JSON files were uploaded.
+async function loadJSON(name) {
+  for (const path of [`data/${name}`, name]) {
+    try { const r = await fetch(path); if (r.ok) return await r.json(); } catch { /* try next */ }
+  }
+  throw new Error(`Could not load ${name}`);
+}
+function showLoadError(err) {
+  console.error(err);
+  const n = $("setup-note");
+  n.hidden = false;
+  n.textContent = "Could not load the menu or timetable file. Check that the JSON files are uploaded and have no typos.";
+}
+
+// The "right now" strip under the header: current meal + current class.
+function renderNow() {
+  const box = $("now-strip");
+  if (!box || !menu || !tt) return;
+  const nm = nowMin(), today = todayName();
+  const meal = menu.meals.find((m) => nm >= toMin(m.start) && nm < toMin(m.end));
+  const nextMeal = menu.meals.find((m) => toMin(m.start) > nm);
+  const mealText = meal ? (menu.days[today] || {})[meal.name]
+    : nextMeal ? `${nextMeal.name} at ${fmt12(nextMeal.start)}` : "See tomorrow's menu in the Food tab";
+  const slots = (tt.classes[$("class-select").value] || {})[today] || [];
+  const per = (no) => tt.periods.find((p) => p.no === no);
+  const cur = slots.find((s) => { const p = per(s.period); return p && nm >= toMin(p.start) && nm < toMin(p.end); });
+  const nxt = slots.find((s) => { const p = per(s.period); return p && toMin(p.start) > nm; });
+  const classTitle = cur ? cur.subject : nxt ? `Next: ${nxt.subject}` : "No more classes today";
+  const classSub = cur ? cur.teacher : nxt ? `${fmt12(per(nxt.period).start)} · ${nxt.teacher}` : "";
+  box.replaceChildren(
+    el("div", {}, el("span", { class: "k", text: "In the mess" }),
+      el("strong", { text: meal ? `${meal.name} is being served` : "Nothing being served" }),
+      el("span", { class: "muted", text: mealText })),
+    el("div", {}, el("span", { class: "k", text: "In class" }),
+      el("strong", { text: classTitle }),
+      el("span", { class: "muted", text: classSub }))
+  );
+}
+
 /* ---------- tabs ---------- */
 document.querySelectorAll(".tab").forEach((btn) => {
   btn.addEventListener("click", () => {
@@ -89,7 +128,7 @@ let menu = null;
 let ratingStats = {}; // meal -> { sum, count } for today
 
 async function initFood() {
-  menu = await (await fetch("data/menu.json")).json();
+  menu = await loadJSON("menu.json");
   const sel = $("day-select");
   DAYS.forEach((d) => sel.append(el("option", { value: d, text: d })));
   sel.value = todayName();
@@ -153,6 +192,7 @@ function renderFood() {
     }
     list.append(card);
   });
+  renderNow();
 }
 
 async function rate(meal, stars) {
@@ -175,7 +215,7 @@ let tt = null;
 let attendance = {}; // "Class A_3" -> true/false for today
 
 async function initClasses() {
-  tt = await (await fetch("data/timetable.json")).json();
+  tt = await loadJSON("timetable.json");
   const sel = $("class-select");
   Object.keys(tt.classes).forEach((c) => sel.append(el("option", { value: c, text: c })));
   const saved = store.get("myClass");
@@ -210,6 +250,7 @@ function renderClasses() {
   const current = slots.find((s) => { const p = periodOf(s.period); return p && nm >= toMin(p.start) && nm < toMin(p.end); });
   const next = slots.find((s) => { const p = periodOf(s.period); return p && toMin(p.start) > nm; });
 
+  renderNow();
   const nowBox = $("class-now");
   nowBox.replaceChildren();
   if (current) {
@@ -441,6 +482,6 @@ if (ready) {
 }
 
 /* ---------- start ---------- */
-initFood();
-initClasses();
+initFood().catch(showLoadError);
+initClasses().catch(showLoadError);
 initWall();
