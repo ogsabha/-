@@ -1,4 +1,4 @@
-# DCSMAT Hub
+Og Sabha Hub
 
 A student-made site with three parts:
 
