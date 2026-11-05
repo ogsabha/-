@@ -1,5 +1,5 @@
 {
-  "_note": "BBA 2026 timetable (DCSMAT/CO/CLS SCH/F 003). Times are 24-hour. Session 6 only has meetings. Lunch is 13:15-14:15.",
+  "_note": "BBA 2026 and BCA 2026 timetables (DCSMAT/CO/CLS SCH/F 003). Times are 24-hour. Session 6 only has meetings. Lunch is 13:15-14:15.",
   "periods": [
     {
       "no": 1,
@@ -205,6 +205,181 @@
           "period": 4,
           "subject": "English",
           "teacher": "Prof. Joy Joseph"
+        }
+      ]
+    },
+    "BCA 2026": {
+      "Sunday": [],
+      "Monday": [
+        {
+          "period": 1,
+          "subject": "Discrete Mathematics",
+          "teacher": "Prof. Blaseena"
+        },
+        {
+          "period": 2,
+          "subject": "Second Language (AEC-OL, online)",
+          "teacher": "Prof. Radhika / Prof. Merlin"
+        },
+        {
+          "period": 3,
+          "subject": "Library",
+          "teacher": "-"
+        },
+        {
+          "period": 4,
+          "subject": "Second Language (AEC-OL, online)",
+          "teacher": "Prof. Radhika / Prof. Merlin"
+        },
+        {
+          "period": 5,
+          "subject": "Fundamentals of Programming using C",
+          "teacher": "Prof. P.R. Ashwin Raj"
+        }
+      ],
+      "Tuesday": [
+        {
+          "period": 1,
+          "subject": "Cyber Laws and Online Safety",
+          "teacher": "Prof. Tomin"
+        },
+        {
+          "period": 2,
+          "subject": "Second Language (AEC-OL, online)",
+          "teacher": "Prof. Radhika / Prof. Merlin"
+        },
+        {
+          "period": 3,
+          "subject": "Fundamentals of Programming using C",
+          "teacher": "Prof. P.R. Ashwin Raj"
+        },
+        {
+          "period": 4,
+          "subject": "Second Language (AEC-OL, online)",
+          "teacher": "Prof. Radhika / Prof. Merlin"
+        },
+        {
+          "period": 5,
+          "subject": "English",
+          "teacher": "Prof. Joy Joseph"
+        },
+        {
+          "period": 6,
+          "subject": "SOP Meeting",
+          "teacher": "Whole class"
+        }
+      ],
+      "Wednesday": [
+        {
+          "period": 1,
+          "subject": "Discrete Mathematics",
+          "teacher": "Prof. Blaseena"
+        },
+        {
+          "period": 2,
+          "subject": "Second Language (AEC-OL, online)",
+          "teacher": "Prof. Radhika / Prof. Merlin"
+        },
+        {
+          "period": 3,
+          "subject": "Fundamentals of Programming using C",
+          "teacher": "Prof. P.R. Ashwin Raj"
+        },
+        {
+          "period": 4,
+          "subject": "Second Language (AEC-OL, online)",
+          "teacher": "Prof. Radhika / Prof. Merlin"
+        },
+        {
+          "period": 5,
+          "subject": "Digital Fundamentals",
+          "teacher": "Prof. Satheesh Kumar S"
+        },
+        {
+          "period": 6,
+          "subject": "Club Meeting",
+          "teacher": "Whole class"
+        }
+      ],
+      "Thursday": [
+        {
+          "period": 1,
+          "subject": "Digital Fundamentals",
+          "teacher": "Prof. Satheesh Kumar S"
+        },
+        {
+          "period": 2,
+          "subject": "Library",
+          "teacher": "-"
+        },
+        {
+          "period": 3,
+          "subject": "Discrete Mathematics",
+          "teacher": "Prof. Blaseena"
+        },
+        {
+          "period": 4,
+          "subject": "Cyber Laws and Online Safety",
+          "teacher": "Prof. Tomin"
+        },
+        {
+          "period": 5,
+          "subject": "Fundamentals of Programming using C",
+          "teacher": "Prof. P.R. Ashwin Raj"
+        },
+        {
+          "period": 6,
+          "subject": "SOP Meeting",
+          "teacher": "Whole class"
+        }
+      ],
+      "Friday": [
+        {
+          "period": 1,
+          "subject": "Digital Fundamentals",
+          "teacher": "Prof. Satheesh Kumar S"
+        },
+        {
+          "period": 2,
+          "subject": "Discrete Mathematics",
+          "teacher": "Prof. Blaseena"
+        },
+        {
+          "period": 3,
+          "subject": "Fundamentals of Programming using C",
+          "teacher": "Prof. P.R. Ashwin Raj"
+        },
+        {
+          "period": 4,
+          "subject": "English",
+          "teacher": "Prof. Joy Joseph"
+        },
+        {
+          "period": 5,
+          "subject": "Software Lab in C",
+          "teacher": "Prof. P.R. Ashwin Raj"
+        }
+      ],
+      "Saturday": [
+        {
+          "period": 1,
+          "subject": "Discrete Mathematics",
+          "teacher": "Prof. Blaseena"
+        },
+        {
+          "period": 2,
+          "subject": "English",
+          "teacher": "Prof. Joy Joseph"
+        },
+        {
+          "period": 3,
+          "subject": "Digital Fundamentals",
+          "teacher": "Prof. Satheesh Kumar S"
+        },
+        {
+          "period": 4,
+          "subject": "Cyber Laws and Online Safety",
+          "teacher": "Prof. Tomin"
         }
       ]
     }
