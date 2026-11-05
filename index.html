@@ -4,13 +4,23 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>DCSMAT Hub</title>
+  <meta name="theme-color" content="#2f7a55">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:wght@600;800&family=Hanken+Grotesk:wght@400;600;700&display=swap">
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-  <header>
-    <h1>DCSMAT Hub</h1>
-    <p class="muted">Food · Classes · Campus wall</p>
+  <header class="hero">
+    <div class="wrap">
+      <h1>DCSMAT Hub</h1>
+      <p>Mess menu, live classes and the campus wall for Vagamon.</p>
+    </div>
+    <svg viewBox="0 0 720 56" preserveAspectRatio="none" aria-hidden="true">
+      <path class="far" d="M0 30 C90 6 150 8 230 26 S380 4 470 20 S640 6 720 24 V56 H0Z"/>
+      <path class="near" d="M0 44 C100 26 190 30 280 42 S470 28 560 40 S680 34 720 40 V56 H0Z"/>
+    </svg>
   </header>
+  <div id="now-strip" class="now" aria-live="polite"></div>
 
   <nav>
     <button class="tab active" data-tab="food">Food</button>
