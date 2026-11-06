@@ -2,15 +2,56 @@
 <html lang="en">
 <head>
   <meta name="google-site-verification" content="gWRmwSl6wigGY8gN4rM9We63xPeJ07Jaqomf1dwj_xg" />
-  <link rel="manifest" href="manifest.webmanifest">
-<link rel="icon" href="/favicon.ico" sizes="48x48">
-<link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
-<link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16">
-<link rel="apple-touch-icon" href="/apple-touch-icon.png">/>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Og Sabha </title>
+  <title>Og Sabha | DCSMAT Vagamon Mess Menu, Timetable &amp; Student Hub</title>
+  <meta name="description" content="Og Sabha is the student hub for DCSMAT, Vagamon: today's mess menu, live class timetable for BBA and BCA, an anonymous wall and a skill board. Made by students.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://og-sabha.web.app/">
   <meta name="theme-color" content="#FFF0C2">
+
+  <!-- Link previews (WhatsApp, Instagram, Facebook, X) -->
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Og Sabha">
+  <meta property="og:title" content="Og Sabha | DCSMAT Vagamon Student Hub">
+  <meta property="og:description" content="Mess menu, live classes, an anonymous wall and a skill board. Made by UG 2026 students at DCSMAT, Vagamon.">
+  <meta property="og:url" content="https://og-sabha.web.app/">
+  <meta property="og:image" content="https://og-sabha.web.app/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Og Sabha, the DCSMAT Vagamon student hub">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Og Sabha | DCSMAT Vagamon Student Hub">
+  <meta name="twitter:description" content="Mess menu, live classes, an anonymous wall and a skill board. Made by students.">
+  <meta name="twitter:image" content="https://og-sabha.web.app/og-image.png">
+
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="icon" href="/favicon-16.png" type="image/png" sizes="16x16">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@graph": [
+      {
+        "@type": "WebSite",
+        "@id": "https://og-sabha.web.app/#website",
+        "url": "https://og-sabha.web.app/",
+        "name": "Og Sabha",
+        "alternateName": "DCSMAT Hub",
+        "description": "Student hub for DCSMAT, Vagamon: mess menu, class timetable, anonymous wall and skill board.",
+        "inLanguage": "en-IN"
+      },
+      {
+        "@type": "CollegeOrUniversity",
+        "name": "DCSMAT",
+        "address": { "@type": "PostalAddress", "addressLocality": "Vagamon", "addressRegion": "Kerala", "addressCountry": "IN" }
+      }
+    ]
+  }
+  </script>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:wght@400;500;700&display=swap">
@@ -29,8 +70,8 @@
 
     <div class="hero-text">
       <span class="chip" id="greet">hey 👋</span>
-      <h1><span>DCSMAT</span><span id="h1-line">eat up.</span></h1>
-      <p class="sub">Mess menu, live classes, an anonymous wall and a skill board. Made by students, Vagamon.</p>
+      <h1 aria-label="DCSMAT Student Hub"><span>DCSMAT</span><span id="h1-line" aria-hidden="true">eat up.</span></h1>
+      <p class="sub">Mess menu, live classes, an anonymous wall and a skill board. Made by UG 2026 students, Vagamon.</p>
       <p class="hint">psst: drag the stickers</p>
     </div>
   </header>
@@ -55,6 +96,11 @@
     Firebase is not connected yet. The menu and timetable work, but ratings,
     live teacher status and the wall turn on after you paste your Firebase config in app.js.
   </p>
+
+  <noscript>
+    <p class="note">Og Sabha needs JavaScript for live features. You can still read the
+      <a href="mess-menu.html">weekly mess menu</a> and the <a href="timetable.html">class timetable</a>.</p>
+  </noscript>
 
   <main>
     <!-- FOOD -->
@@ -167,7 +213,14 @@
       </form>
       <div id="auth-status" class="muted"></div>
     </details>
-    <p class="muted">Made by students, not an official college site.</p>
+    <section class="about" aria-labelledby="about-h">
+      <h2 id="about-h">About Og Sabha</h2>
+      <p class="muted">Og Sabha is a student-made hub for DCSMAT, Vagamon, built by the UG 2026 batch. Check the
+        <a href="mess-menu.html">weekly mess menu</a>, find your
+        <a href="timetable.html">BBA or BCA class timetable</a>, share thoughts on the anonymous wall,
+        or hire a classmate on the gigs board.</p>
+    </section>
+    <p class="muted">Made by UG 2026 students of DCSMAT, Vagamon. Not an official college site.</p>
   </footer>
 
   <dialog id="apply-dialog">
