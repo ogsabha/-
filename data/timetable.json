@@ -1,387 +1,142 @@
- {
-  "_note": "BBA 2026 and BCA 2026 timetables (DCSMAT/CO/CLS SCH/F 003). Times are 24-hour. Session 6 only has meetings. Lunch is 13:15-14:15.",
-  "periods": [
-    {
-      "no": 1,
-      "start": "09:00",
-      "end": "10:00"
-    },
-    {
-      "no": 2,
-      "start": "10:00",
-      "end": "11:00"
-    },
-    {
-      "no": 3,
-      "start": "11:15",
-      "end": "12:15"
-    },
-    {
-      "no": 4,
-      "start": "12:15",
-      "end": "13:15"
-    },
-    {
-      "no": 5,
-      "start": "14:15",
-      "end": "15:15"
-    },
-    {
-      "no": 6,
-      "start": "15:15",
-      "end": "16:15"
-    }
-  ],
-  "classes": {
-    "BBA 2026": {
-      "Sunday": [],
-      "Monday": [
-        {
-          "period": 1,
-          "subject": "AEC-OL (Online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 2,
-          "subject": "Principles and Practices of Management",
-          "teacher": "Prof. Gopika"
-        },
-        {
-          "period": 3,
-          "subject": "AEC-OL (Online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 4,
-          "subject": "Business Communication",
-          "teacher": "Prof. Joy Joseph"
-        },
-        {
-          "period": 5,
-          "subject": "Business Statistics and Logic",
-          "teacher": "Dr. Soney John"
-        }
-      ],
-      "Tuesday": [
-        {
-          "period": 1,
-          "subject": "AEC-OL (Online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 2,
-          "subject": "Business Communication",
-          "teacher": "Prof. Joy Joseph"
-        },
-        {
-          "period": 3,
-          "subject": "AEC-OL (Online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 4,
-          "subject": "Library",
-          "teacher": "-"
-        },
-        {
-          "period": 5,
-          "subject": "Financial Accounting",
-          "teacher": "Prof. Jothi KS"
-        },
-        {
-          "period": 6,
-          "subject": "SOP Meeting",
-          "teacher": "Whole class"
-        }
-      ],
-      "Wednesday": [
-        {
-          "period": 1,
-          "subject": "AEC-OL (Online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 2,
-          "subject": "Business Statistics and Logic",
-          "teacher": "Dr. Soney John"
-        },
-        {
-          "period": 3,
-          "subject": "AEC-OL (Online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 4,
-          "subject": "Indian Systems of Health and Wellness",
-          "teacher": "Prof. Swathy"
-        },
-        {
-          "period": 5,
-          "subject": "Principles and Practices of Management",
-          "teacher": "Prof. Gopika"
-        },
-        {
-          "period": 6,
-          "subject": "Club Meeting",
-          "teacher": "Whole class"
-        }
-      ],
-      "Thursday": [
-        {
-          "period": 1,
-          "subject": "Business Communication",
-          "teacher": "Prof. Joy Joseph"
-        },
-        {
-          "period": 2,
-          "subject": "Principles and Practices of Management",
-          "teacher": "Prof. Gopika"
-        },
-        {
-          "period": 3,
-          "subject": "Financial Accounting",
-          "teacher": "Prof. Jothi KS"
-        },
-        {
-          "period": 4,
-          "subject": "English",
-          "teacher": "Prof. Joy Joseph"
-        },
-        {
-          "period": 5,
-          "subject": "Business Statistics and Logic",
-          "teacher": "Dr. Soney John"
-        },
-        {
-          "period": 6,
-          "subject": "SOP Meeting",
-          "teacher": "Whole class"
-        }
-      ],
-      "Friday": [
-        {
-          "period": 1,
-          "subject": "Indian Systems of Health and Wellness",
-          "teacher": "Prof. Swathy"
-        },
-        {
-          "period": 2,
-          "subject": "English",
-          "teacher": "Prof. Joy Joseph"
-        },
-        {
-          "period": 3,
-          "subject": "Principles and Practices of Management",
-          "teacher": "Prof. Gopika"
-        },
-        {
-          "period": 4,
-          "subject": "Business Statistics and Logic",
-          "teacher": "Dr. Soney John"
-        },
-        {
-          "period": 5,
-          "subject": "Financial Accounting",
-          "teacher": "Prof. Jothi KS"
-        }
-      ],
-      "Saturday": [
-        {
-          "period": 1,
-          "subject": "Business Statistics and Logic",
-          "teacher": "Dr. Soney John"
-        },
-        {
-          "period": 2,
-          "subject": "Environmental Science and Sustainability",
-          "teacher": "Prof. Swathy"
-        },
-        {
-          "period": 3,
-          "subject": "Financial Accounting",
-          "teacher": "Prof. Jothi KS"
-        },
-        {
-          "period": 4,
-          "subject": "English",
-          "teacher": "Prof. Joy Joseph"
-        }
-      ]
-    },
-    "BCA 2026": {
-      "Sunday": [],
-      "Monday": [
-        {
-          "period": 1,
-          "subject": "Discrete Mathematics",
-          "teacher": "Prof. Blaseena"
-        },
-        {
-          "period": 2,
-          "subject": "Second Language (AEC-OL, online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 3,
-          "subject": "Library",
-          "teacher": "-"
-        },
-        {
-          "period": 4,
-          "subject": "Second Language (AEC-OL, online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 5,
-          "subject": "Fundamentals of Programming using C",
-          "teacher": "Prof. P.R. Ashwin Raj"
-        }
-      ],
-      "Tuesday": [
-        {
-          "period": 1,
-          "subject": "Cyber Laws and Online Safety",
-          "teacher": "Prof. Tomin"
-        },
-        {
-          "period": 2,
-          "subject": "Second Language (AEC-OL, online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 3,
-          "subject": "Fundamentals of Programming using C",
-          "teacher": "Prof. P.R. Ashwin Raj"
-        },
-        {
-          "period": 4,
-          "subject": "Second Language (AEC-OL, online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 5,
-          "subject": "English",
-          "teacher": "Prof. Joy Joseph"
-        },
-        {
-          "period": 6,
-          "subject": "SOP Meeting",
-          "teacher": "Whole class"
-        }
-      ],
-      "Wednesday": [
-        {
-          "period": 1,
-          "subject": "Discrete Mathematics",
-          "teacher": "Prof. Blaseena"
-        },
-        {
-          "period": 2,
-          "subject": "Second Language (AEC-OL, online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 3,
-          "subject": "Fundamentals of Programming using C",
-          "teacher": "Prof. P.R. Ashwin Raj"
-        },
-        {
-          "period": 4,
-          "subject": "Second Language (AEC-OL, online)",
-          "teacher": "Prof. Radhika / Prof. Merlin"
-        },
-        {
-          "period": 5,
-          "subject": "Digital Fundamentals",
-          "teacher": "Prof. Satheesh Kumar S"
-        },
-        {
-          "period": 6,
-          "subject": "Club Meeting",
-          "teacher": "Whole class"
-        }
-      ],
-      "Thursday": [
-        {
-          "period": 1,
-          "subject": "Digital Fundamentals",
-          "teacher": "Prof. Satheesh Kumar S"
-        },
-        {
-          "period": 2,
-          "subject": "Library",
-          "teacher": "-"
-        },
-        {
-          "period": 3,
-          "subject": "Discrete Mathematics",
-          "teacher": "Prof. Blaseena"
-        },
-        {
-          "period": 4,
-          "subject": "Cyber Laws and Online Safety",
-          "teacher": "Prof. Tomin"
-        },
-        {
-          "period": 5,
-          "subject": "Fundamentals of Programming using C",
-          "teacher": "Prof. P.R. Ashwin Raj"
-        },
-        {
-          "period": 6,
-          "subject": "SOP Meeting",
-          "teacher": "Whole class"
-        }
-      ],
-      "Friday": [
-        {
-          "period": 1,
-          "subject": "Digital Fundamentals",
-          "teacher": "Prof. Satheesh Kumar S"
-        },
-        {
-          "period": 2,
-          "subject": "Discrete Mathematics",
-          "teacher": "Prof. Blaseena"
-        },
-        {
-          "period": 3,
-          "subject": "Fundamentals of Programming using C",
-          "teacher": "Prof. P.R. Ashwin Raj"
-        },
-        {
-          "period": 4,
-          "subject": "English",
-          "teacher": "Prof. Joy Joseph"
-        },
-        {
-          "period": 5,
-          "subject": "Software Lab in C",
-          "teacher": "Prof. P.R. Ashwin Raj"
-        }
-      ],
-      "Saturday": [
-        {
-          "period": 1,
-          "subject": "Discrete Mathematics",
-          "teacher": "Prof. Blaseena"
-        },
-        {
-          "period": 2,
-          "subject": "English",
-          "teacher": "Prof. Joy Joseph"
-        },
-        {
-          "period": 3,
-          "subject": "Digital Fundamentals",
-          "teacher": "Prof. Satheesh Kumar S"
-        },
-        {
-          "period": 4,
-          "subject": "Cyber Laws and Online Safety",
-          "teacher": "Prof. Tomin"
-        }
-      ]
-    }
-  }
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>DCSMAT Class Timetable | BBA 2026 &amp; BCA 2026 | Og Sabha</title>
+  <meta name="description" content="Day-by-day class timetable for BBA 2026 and BCA 2026 at DCSMAT, Vagamon, with periods, subjects and teachers.">
+  <meta name="robots" content="index, follow, max-image-preview:large">
+  <link rel="canonical" href="https://og-sabha.web.app/timetable.html">
+  <meta name="theme-color" content="#FFF0C2">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Og Sabha">
+  <meta property="og:title" content="DCSMAT Class Timetable | BBA 2026 &amp; BCA 2026 | Og Sabha">
+  <meta property="og:description" content="Day-by-day class timetable for BBA 2026 and BCA 2026 at DCSMAT, Vagamon, with periods, subjects and teachers.">
+  <meta property="og:url" content="https://og-sabha.web.app/timetable.html">
+  <meta property="og:image" content="https://og-sabha.web.app/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="manifest" href="manifest.webmanifest">
+  <link rel="icon" href="/favicon.ico" sizes="48x48">
+  <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:wght@400;500;700&display=swap">
+  <link rel="stylesheet" href="style.css">
+  <script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebPage", "name": "DCSMAT Class Timetable", "url": "https://og-sabha.web.app/timetable.html", "description": "BBA 2026 and BCA 2026 class timetables at DCSMAT, Vagamon.", "isPartOf": {"@id": "https://og-sabha.web.app/#website"}}</script>
+</head>
+<body data-theme="classes">
+  <main class="static-page">
+    <p><a href="./">&larr; Og Sabha home</a></p>
+    <h1 class="static-h1">DCSMAT Class Timetable</h1>
+    <p class="muted">Class timetables for DCSMAT, Vagamon. For the live view with the current period and teacher status, open the <a href="./#classes">Classes tab</a>.</p>
+    <h2 id="bba-2026">BBA 2026 timetable</h2>
+    <h3>Monday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>AEC-OL (Online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>Principles and Practices of Management</strong><div class="muted">Prof. Gopika</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>AEC-OL (Online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>Business Communication</strong><div class="muted">Prof. Joy Joseph</div></td></tr>
+      <tr><td class="muted">P5 · 2:15 PM</td><td><strong>Business Statistics and Logic</strong><div class="muted">Dr. Soney John</div></td></tr>
+    </table>
+    <h3>Tuesday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>AEC-OL (Online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>Business Communication</strong><div class="muted">Prof. Joy Joseph</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>AEC-OL (Online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>Library</strong><div class="muted">-</div></td></tr>
+      <tr><td class="muted">P5 · 2:15 PM</td><td><strong>Financial Accounting</strong><div class="muted">Prof. Jothi KS</div></td></tr>
+      <tr><td class="muted">P6 · 3:15 PM</td><td><strong>SOP Meeting</strong><div class="muted">Whole class</div></td></tr>
+    </table>
+    <h3>Wednesday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>AEC-OL (Online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>Business Statistics and Logic</strong><div class="muted">Dr. Soney John</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>AEC-OL (Online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>Indian Systems of Health and Wellness</strong><div class="muted">Prof. Swathy</div></td></tr>
+      <tr><td class="muted">P5 · 2:15 PM</td><td><strong>Principles and Practices of Management</strong><div class="muted">Prof. Gopika</div></td></tr>
+      <tr><td class="muted">P6 · 3:15 PM</td><td><strong>Club Meeting</strong><div class="muted">Whole class</div></td></tr>
+    </table>
+    <h3>Thursday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>Business Communication</strong><div class="muted">Prof. Joy Joseph</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>Principles and Practices of Management</strong><div class="muted">Prof. Gopika</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>Financial Accounting</strong><div class="muted">Prof. Jothi KS</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>English</strong><div class="muted">Prof. Joy Joseph</div></td></tr>
+      <tr><td class="muted">P5 · 2:15 PM</td><td><strong>Business Statistics and Logic</strong><div class="muted">Dr. Soney John</div></td></tr>
+      <tr><td class="muted">P6 · 3:15 PM</td><td><strong>SOP Meeting</strong><div class="muted">Whole class</div></td></tr>
+    </table>
+    <h3>Friday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>Indian Systems of Health and Wellness</strong><div class="muted">Prof. Swathy</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>English</strong><div class="muted">Prof. Joy Joseph</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>Principles and Practices of Management</strong><div class="muted">Prof. Gopika</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>Business Statistics and Logic</strong><div class="muted">Dr. Soney John</div></td></tr>
+      <tr><td class="muted">P5 · 2:15 PM</td><td><strong>Financial Accounting</strong><div class="muted">Prof. Jothi KS</div></td></tr>
+    </table>
+    <h3>Saturday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>Business Statistics and Logic</strong><div class="muted">Dr. Soney John</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>Environmental Science and Sustainability</strong><div class="muted">Prof. Swathy</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>Financial Accounting</strong><div class="muted">Prof. Jothi KS</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>English</strong><div class="muted">Prof. Joy Joseph</div></td></tr>
+    </table>
+    <h2 id="bca-2026">BCA 2026 timetable</h2>
+    <h3>Monday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>Discrete Mathematics</strong><div class="muted">Prof. Blaseena</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>Second Language (AEC-OL, online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>Library</strong><div class="muted">-</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>Second Language (AEC-OL, online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P5 · 2:15 PM</td><td><strong>Fundamentals of Programming using C</strong><div class="muted">Prof. P.R. Ashwin Raj</div></td></tr>
+    </table>
+    <h3>Tuesday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>Cyber Laws and Online Safety</strong><div class="muted">Prof. Tomin</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>Second Language (AEC-OL, online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>Fundamentals of Programming using C</strong><div class="muted">Prof. P.R. Ashwin Raj</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>Second Language (AEC-OL, online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P5 · 2:15 PM</td><td><strong>English</strong><div class="muted">Prof. Joy Joseph</div></td></tr>
+      <tr><td class="muted">P6 · 3:15 PM</td><td><strong>SOP Meeting</strong><div class="muted">Whole class</div></td></tr>
+    </table>
+    <h3>Wednesday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>Discrete Mathematics</strong><div class="muted">Prof. Blaseena</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>Second Language (AEC-OL, online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>Fundamentals of Programming using C</strong><div class="muted">Prof. P.R. Ashwin Raj</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>Second Language (AEC-OL, online)</strong><div class="muted">Prof. Radhika / Prof. Merlin</div></td></tr>
+      <tr><td class="muted">P5 · 2:15 PM</td><td><strong>Digital Fundamentals</strong><div class="muted">Prof. Satheesh Kumar S</div></td></tr>
+      <tr><td class="muted">P6 · 3:15 PM</td><td><strong>Club Meeting</strong><div class="muted">Whole class</div></td></tr>
+    </table>
+    <h3>Thursday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>Digital Fundamentals</strong><div class="muted">Prof. Satheesh Kumar S</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>Library</strong><div class="muted">-</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>Discrete Mathematics</strong><div class="muted">Prof. Blaseena</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>Cyber Laws and Online Safety</strong><div class="muted">Prof. Tomin</div></td></tr>
+      <tr><td class="muted">P5 · 2:15 PM</td><td><strong>Fundamentals of Programming using C</strong><div class="muted">Prof. P.R. Ashwin Raj</div></td></tr>
+      <tr><td class="muted">P6 · 3:15 PM</td><td><strong>SOP Meeting</strong><div class="muted">Whole class</div></td></tr>
+    </table>
+    <h3>Friday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>Digital Fundamentals</strong><div class="muted">Prof. Satheesh Kumar S</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>Discrete Mathematics</strong><div class="muted">Prof. Blaseena</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>Fundamentals of Programming using C</strong><div class="muted">Prof. P.R. Ashwin Raj</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>English</strong><div class="muted">Prof. Joy Joseph</div></td></tr>
+      <tr><td class="muted">P5 · 2:15 PM</td><td><strong>Software Lab in C</strong><div class="muted">Prof. P.R. Ashwin Raj</div></td></tr>
+    </table>
+    <h3>Saturday</h3>
+    <table>
+      <tr><td class="muted">P1 · 9:00 AM</td><td><strong>Discrete Mathematics</strong><div class="muted">Prof. Blaseena</div></td></tr>
+      <tr><td class="muted">P2 · 10:00 AM</td><td><strong>English</strong><div class="muted">Prof. Joy Joseph</div></td></tr>
+      <tr><td class="muted">P3 · 11:15 AM</td><td><strong>Digital Fundamentals</strong><div class="muted">Prof. Satheesh Kumar S</div></td></tr>
+      <tr><td class="muted">P4 · 12:15 PM</td><td><strong>Cyber Laws and Online Safety</strong><div class="muted">Prof. Tomin</div></td></tr>
+    </table>
+
+  </main>
+  <footer>
+    <p class="muted">Og Sabha is made by UG 2026 students of DCSMAT, Vagamon. It is not an official college site, so always confirm with the college.</p>
+    <p class="muted"><a href="./#food">Food</a> · <a href="./#classes">Classes</a> · <a href="./#wall">Wall</a> · <a href="./#gigs">Gigs</a></p>
+  </footer>
+</body>
+</html>
