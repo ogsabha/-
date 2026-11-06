@@ -1,6 +1,6 @@
 # Og Sabha (DCSMAT Hub)
 
-A loud, sticker-style student hub for **DCSMAT, Vagamon**. Made by students, not an official college site.
+A loud, sticker-style student hub for **DCSMAT, Vagamon**. Made by UG 2026 students of DCSMAT, Vagamon. Not an official college site.
 
 It brings four everyday things into one installable web app:
 
@@ -42,7 +42,13 @@ It brings four everyday things into one installable web app:
 ├── manifest.webmanifest  # PWA manifest
 ├── firestore.rules       # Firestore security rules
 ├── menu.json             # Mess menu and meal timings
-└── timetable.json        # Periods and class timetables
+├── timetable.json        # Periods and class timetables
+├── mess-menu.html        # Static, crawlable menu page (generated)
+├── timetable.html        # Static, crawlable timetable page (generated)
+├── build_pages.py        # Regenerates the two pages, robots.txt and sitemap.xml
+├── robots.txt            # Crawler rules + sitemap link
+├── sitemap.xml           # Pages for search engines
+└── og-image.png          # Link-preview image (1200x630)
 ```
 
 `app.js` looks for the JSON files in `data/` first, then in the main folder, so either layout works.
@@ -76,6 +82,10 @@ python3 -m http.server 8000
 - `periods` defines period numbers and their start and end times.
 - `classes` maps a class name (for example `BCA 2026`) to each weekday and a list of `{ period, subject, teacher }`.
 - To add a class, copy an existing block and rename it. It appears in the class dropdown automatically.
+
+### SEO pages
+After editing `menu.json` or `timetable.json`, run `python3 build_pages.py` to refresh `mess-menu.html`, `timetable.html` and `sitemap.xml`.
+The site URL is set once at the top of `build_pages.py` (and in the `<head>` of `index.html`). Change it if your domain is not `og-sabha.web.app`.
 
 ### Moderation words
 Add words to the `BAD_WORDS` array in `app.js` (lowercase).
