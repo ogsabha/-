@@ -1,77 +1,105 @@
-Og Sabha Hub
+# Og Sabha (DCSMAT Hub)
 
-A student-made site with three parts:
+A loud, sticker-style student hub for **DCSMAT, Vagamon**. Made by students, not an official college site.
 
-1. **Food**: hostel menu by day and time, "serving now" highlight, 1-5 star ratings.
-2. **Classes**: which period is on now, the teacher, and whether the teacher is present (updated by class reps).
-3. **Wall**: anonymous posts, approved by an admin before they show.
+It brings four everyday things into one installable web app:
 
-Files:
+| Tab | What it does |
+| --- | --- |
+| 🍛 **Food** | Weekly mess menu, a "serving now" highlight, and live star ratings for each meal |
+| 📚 **Classes** | Timetable for your class, the current period with a progress bar, and live "teacher present / absent" status |
+| 💬 **Wall** | Anonymous posts with moderation, reporting and an approval queue |
+| 🛠️ **Gigs** | A skill board where students post "wanted" jobs or "offering" skills and get private replies |
 
-| File | What it does |
-|---|---|
-| `index.html` | The page and its three tabs |
-| `style.css` | Look and mobile layout |
-| `app.js` | All the logic and the Firebase connection |
-| `data/menu.json` | Hostel menu (sample data, replace it) |
-| `data/timetable.json` | Class timetable (sample data, replace it) |
-| `firestore.rules` | Security rules to paste into Firebase |
+## Features
 
-## Step 1: Try it on your computer
+- **Live "right now" strip** showing the current meal and current class
+- **Anonymous ratings**: one rating per device, per meal, per day
+- **Class rep attendance**: staff can mark a teacher present, absent or clear the status
+- **Moderated wall**: posts wait for approval, 3 or more reports hide a post, a rude-word filter and a 60 second cooldown apply
+- **Private gig replies**: contact details are never shown on the post, only the poster (and staff) can read replies
+- **WhatsApp shortcut** for replies that contain a phone number
+- **Four moods**: the whole theme changes per tab (butter yellow, lilac, midnight, mint)
+- **Playful touches**: draggable stickers, emoji bursts, pointer-following blobs, time-of-day greeting
+- **Installable PWA** with a web manifest and service worker
+- Respects `prefers-reduced-motion`
 
-Browsers block `fetch()` on files opened by double-click, so run a tiny server.
-In the project folder:
+## Tech stack
+
+- Plain HTML, CSS and JavaScript (ES modules), with no build step
+- [Firebase](https://firebase.google.com/) Firestore for data
+- Firebase Authentication: email/password for staff, silent anonymous sign-in for visitors
+- Google Fonts: Bricolage Grotesque and DM Sans
+
+## Project structure
 
 ```
+.
+├── index.html            # Page markup
+├── style.css             # All styling and the four themes
+├── app.js                # App logic and Firebase code
+├── sw.js                 # Service worker (PWA)
+├── manifest.webmanifest  # PWA manifest
+├── firestore.rules       # Firestore security rules
+├── menu.json             # Mess menu and meal timings
+└── timetable.json        # Periods and class timetables
+```
+
+`app.js` looks for the JSON files in `data/` first, then in the main folder, so either layout works.
+
+## Setup
+
+1. **Create a Firebase project** and add a Web app.
+2. Paste your config into the `firebaseConfig` object in `app.js`.
+3. **Enable Firestore** and publish the rules from `firestore.rules`.
+4. **Enable Authentication**:
+   - *Email/Password*: create accounts for staff and class reps.
+   - *Anonymous*: required for the Gigs tab.
+5. In `firestore.rules`, put the staff email addresses in the `isStaff()` list.
+6. Host the files anywhere static (Firebase Hosting, GitHub Pages, Netlify, Cloudflare Pages).
+
+To test locally, serve the folder over HTTP (modules and the service worker will not work from `file://`):
+
+```bash
+npx serve .
+# or
 python3 -m http.server 8000
 ```
 
-Open http://localhost:8000. The food and class tabs work already. Ratings,
-teacher status and the wall stay off until Step 3.
+## Editing content
 
-## Step 2: Put in your real data
+### Mess menu: `menu.json`
+- `meals` holds the name, `start` and `end` time (24-hour) of each meal. Edit these to the real mess timings.
+- `days` holds the menu per weekday and meal.
 
-- `data/menu.json`: edit meal timings under `meals`, and the food for each day under `days`.
-- `data/timetable.json`: edit `periods` (times in 24-hour format), then each class, day, period, subject and teacher.
-  Add more classes by copying the `"Class A"` block and renaming it.
+### Timetable: `timetable.json`
+- `periods` defines period numbers and their start and end times.
+- `classes` maps a class name (for example `BCA 2026`) to each weekday and a list of `{ period, subject, teacher }`.
+- To add a class, copy an existing block and rename it. It appears in the class dropdown automatically.
 
-Keep the commas and quotes exactly as in the sample. If the page goes blank,
-paste the file into jsonlint.com to find the mistake.
+### Moderation words
+Add words to the `BAD_WORDS` array in `app.js` (lowercase).
 
-## Step 3: Connect Firebase (free)
+## How moderation works
 
-1. Go to https://console.firebase.google.com and create a project (turn Google Analytics off).
-2. Click the web icon (`</>`), register an app, and copy the `firebaseConfig` block.
-3. Paste its values into the `firebaseConfig` section at the top of `app.js`.
-   (These values are not secret. The rules in Step 4 are what protect your data.)
-4. Build > **Firestore Database** > Create database > production mode > pick a nearby region (e.g. `asia-south1`).
-5. Build > **Authentication** > Get started > enable **Email/Password**.
-   Then Users > Add user for yourself (admin) and for each class rep.
+- New wall posts and gigs are created with `approved: false` and stay hidden until staff approve them.
+- Anyone can add one report to a post. At 3 reports it is hidden from students, but staff still see it.
+- Replies to gigs are stored in a sub-collection that only the gig owner and staff can read.
+- The Firestore rules enforce field names, length limits and who can edit what, so these checks are not only in the browser.
 
-## Step 4: Add the security rules
+## Notes
 
-1. Firestore > **Rules** tab.
-2. Open `firestore.rules`, replace the two example emails with the real admin and class rep emails, paste everything into the editor, and click **Publish**.
+- The Firebase web config is not a secret, but your **security rules are what protect the data**. Review `firestore.rules` before going live.
+- Anonymous visitors get a hidden Firebase login so the board knows who posted what. No personal details are collected for this.
+- The menu and timetable are maintained by hand and may be out of date. Always confirm with the college.
 
-Without this step anyone could edit or delete your data.
+## Contributing
 
-## Step 5: Put it on GitHub Pages
+Pull requests and ideas are welcome, especially:
+- New timetables for other classes
+- Menu updates
+- Accessibility and performance improvements
 
-1. Create a **public** repository on github.com (for example `dcsmat-hub`).
-2. Upload all the files and the `data` folder (Add file > Upload files, drag the folder in), then commit.
-   Do not upload `firestore.rules` with real emails in it.
-3. Settings > **Pages** > Source: *Deploy from a branch* > branch `main`, folder `/ (root)` > Save.
-4. After a minute your site is live at `https://YOUR-USERNAME.github.io/dcsmat-hub/`.
-5. In Firebase > Authentication > Settings > **Authorized domains**, add `YOUR-USERNAME.github.io` so staff login works.
+## License
 
-## How to use it day to day
-
-- **Class rep**: open the site, tap *Staff / class rep login* at the bottom, log in, then use the *Mark present / absent* buttons under today's timetable.
-- **Admin**: after logging in, the Wall tab shows a *Waiting for approval* list. Approve or delete. Posts with 3 or more reports are hidden from students automatically, and you can delete them.
-
-## Important notes
-
-- Ratings and the post limit are per device, so they stop casual spam but not a determined person.
-- Keep approval switched on. An open anonymous wall tends to fill with bullying, and that can get the site taken down or cause trouble with the college.
-- Rule for the wall: no naming or targeting individuals. Delete anything that does.
-- Free Firebase limits are far above what one college will use.
+Add a license of your choice (for example MIT) before publishing.
