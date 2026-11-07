@@ -79,9 +79,9 @@ let currentUser = null; // staff only (email login)
 let me = null;          // anyone signed in, including anonymous visitors
 let anonFailed = false;
 
-// Looks in the main folder first, then data/, so it works wherever the JSON files were uploaded.
+// Looks in data/ first, then the main folder, so it works wherever the JSON files were uploaded.
 async function loadJSON(name) {
-  for (const path of [name, `data/${name}`]) {
+  for (const path of [`data/${name}`, name]) {
     try { const r = await fetch(path); if (r.ok) return await r.json(); } catch { /* try next */ }
   }
   throw new Error(`Could not load ${name}`);
