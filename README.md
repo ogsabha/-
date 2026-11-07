@@ -51,7 +51,7 @@ It brings four everyday things into one installable web app:
 └── og-image.png          # Link-preview image (1200x630)
 ```
 
-`app.js` looks for the JSON files in `data/` first, then in the main folder, so either layout works.
+`app.js` looks for the JSON files in the main folder first, then in `data/`, so either layout works.
 
 ## Setup
 
@@ -61,7 +61,7 @@ It brings four everyday things into one installable web app:
 4. **Enable Authentication**:
    - *Email/Password*: create accounts for staff and class reps.
    - *Anonymous*: required for the Gigs tab.
-5. In `firestore.rules`, put the staff email addresses in the `isStaff()` list.
+5. In `firestore.rules`, put the staff email addresses in the `isStaff()` list. Then, in Authentication > Settings > User actions, turn **off** "Enable create (sign-up)" so nobody can register a staff email themselves.
 6. Host the files anywhere static (Firebase Hosting, GitHub Pages, Netlify, Cloudflare Pages).
 
 To test locally, serve the folder over HTTP (modules and the service worker will not work from `file://`):
@@ -93,6 +93,7 @@ Add words to the `BAD_WORDS` array in `app.js` (lowercase).
 ## How moderation works
 
 - New wall posts and gigs are created with `approved: false` and stay hidden until staff approve them.
+- Every signed-in visitor (including anonymous ones) can add one report per post or gig; the rules enforce this with a `reports/{uid}` document.
 - Anyone can add one report to a post. At 3 reports it is hidden from students, but staff still see it.
 - Replies to gigs are stored in a sub-collection that only the gig owner and staff can read.
 - The Firestore rules enforce field names, length limits and who can edit what, so these checks are not only in the browser.
@@ -109,6 +110,12 @@ Pull requests and ideas are welcome, especially:
 - New timetables for other classes
 - Menu updates
 - Accessibility and performance improvements
+
+## SEO notes
+
+- Search engines cannot see the live tabs (they are filled by JavaScript), so the crawlable pages are `index.html`, `mess-menu.html` and `timetable.html`. Keep their text accurate and re-run `build_pages.py` after every menu or timetable change.
+- Tabs can be opened directly with `/#classes`, `/#wall` and `/#gigs`.
+- Submit `sitemap.xml` in Google Search Console and check the pages with the URL Inspection tool.
 
 ## License
 
