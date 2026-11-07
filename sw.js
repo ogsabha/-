@@ -1,8 +1,10 @@
 const CACHE = "og-sabha-v2";
-const FILES = ["./", "index.html", "style.css", "app.js", "menu.json", "timetable.json", "manifest.webmanifest"];
+// Missing files are skipped (the JSON may live in data/ or in the main folder), so one 404 cannot break the install.
+const FILES = ["./", "index.html", "style.css", "app.js", "manifest.webmanifest",
+  "data/menu.json", "data/timetable.json", "menu.json", "timetable.json"];
 
 self.addEventListener("install", (e) => {
-  e.waitUntil(caches.open(CACHE).then((c) => c.addAll(FILES)));
+  e.waitUntil(caches.open(CACHE).then((c) => Promise.allSettled(FILES.map((f) => c.add(f)))));
   self.skipWaiting();
 });
 
