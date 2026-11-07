@@ -864,12 +864,15 @@ document.querySelectorAll(".tab").forEach((b) =>
   }));
 
 // Deep links: /#classes, /#wall, /#gigs open that tab.
-const openFromHash = () => {
+const openFromHash = (scroll) => {
   const t = location.hash.slice(1);
-  if (lines[t]) document.querySelector(`.tab[data-tab="${t}"]`)?.click();
+  if (!lines[t]) return;
+  document.querySelector(`.tab[data-tab="${t}"]`)?.click();
+  // Footer links like #gigs sit far below the tabs, so bring the tabs into view.
+  if (scroll) document.querySelector("nav").scrollIntoView({ behavior: "smooth", block: "start" });
 };
-openFromHash();
-addEventListener("hashchange", openFromHash);
+openFromHash(false);
+addEventListener("hashchange", () => openFromHash(true));
 
 // Time-of-day greeting chip.
 (() => {
