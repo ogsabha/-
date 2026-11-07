@@ -1,161 +1,69 @@
-<!DOCTYPE html>
-<html lang="en-IN">
-<head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>DCSMAT Vagamon Mess Menu: Weekly Breakfast, Lunch, Snacks &amp; Dinner</title>
-  <meta name="description" content="Full weekly mess menu for DCSMAT, Vagamon: breakfast, lunch, snacks and dinner for every day, with meal timings and veg options. Made by students.">
-  <meta name="robots" content="index, follow, max-image-preview:large">
-  <link rel="canonical" href="https://ogsabha.github.io/mess-menu.html">
-  <meta name="theme-color" content="#FFF0C2">
-  <meta property="og:type" content="website">
-  <meta property="og:site_name" content="Og Sabha">
-  <meta property="og:locale" content="en_IN">
-  <meta property="og:title" content="DCSMAT Vagamon Mess Menu: Weekly Breakfast, Lunch, Snacks &amp; Dinner">
-  <meta property="og:description" content="Full weekly mess menu for DCSMAT, Vagamon: breakfast, lunch, snacks and dinner for every day, with meal timings and veg options. Made by students.">
-  <meta property="og:url" content="https://ogsabha.github.io/mess-menu.html">
-  <meta property="og:image" content="https://ogsabha.github.io/og-image.png">
-  <meta name="twitter:card" content="summary_large_image">
-  <link rel="manifest" href="manifest.webmanifest">
-  <link rel="icon" href="/favicon.ico" sizes="48x48">
-  <link rel="icon" href="/favicon-32.png" type="image/png" sizes="32x32">
-  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
-  <script type="application/ld+json">{
-  "@context": "https://schema.org",
-  "@graph": [
+{
+  "_note": "Real DCSMAT menu, valid till December 2026 (from 26 Oct 2026). Meal TIMINGS are guesses: edit them to the real mess timings. Menu may change with supply of raw materials.",
+  "meals": [
     {
-      "@type": "WebPage",
-      "@id": "https://ogsabha.github.io/mess-menu.html#page",
-      "url": "https://ogsabha.github.io/mess-menu.html",
-      "name": "DCSMAT Vagamon Mess Menu: Weekly Breakfast, Lunch, Snacks & Dinner",
-      "description": "Full weekly mess menu for DCSMAT, Vagamon: breakfast, lunch, snacks and dinner for every day, with meal timings and veg options. Made by students.",
-      "inLanguage": "en-IN",
-      "dateModified": "2026-11-07",
-      "isPartOf": {
-        "@id": "https://ogsabha.github.io/#website"
-      }
+      "name": "Breakfast",
+      "start": "07:30",
+      "end": "09:00"
     },
     {
-      "@type": "BreadcrumbList",
-      "itemListElement": [
-        {
-          "@type": "ListItem",
-          "position": 1,
-          "name": "Og Sabha",
-          "item": "https://ogsabha.github.io/"
-        },
-        {
-          "@type": "ListItem",
-          "position": 2,
-          "name": "Mess menu",
-          "item": "https://ogsabha.github.io/mess-menu.html"
-        }
-      ]
+      "name": "Lunch",
+      "start": "12:30",
+      "end": "14:00"
+    },
+    {
+      "name": "Snacks",
+      "start": "16:30",
+      "end": "17:30"
+    },
+    {
+      "name": "Dinner",
+      "start": "19:30",
+      "end": "21:00"
     }
-  ]
-}</script>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500..800&family=DM+Sans:wght@400;500;700&display=swap">
-  <link rel="stylesheet" href="style.css">
-  <style>
-    .page-head{width:min(720px,calc(100% - 32px));margin:32px auto 8px}
-    .page-head .back{font-weight:700;color:var(--ink)}
-    .page-head h1{font-size:clamp(2rem,8vw,3.2rem);margin:14px 0 10px;line-height:1.05}
-    .lead{color:var(--muted);font-weight:500;margin:0}
-    th{text-align:left;font-size:.7rem;text-transform:uppercase;letter-spacing:.12em;padding:0 14px;color:var(--muted)}
-    main h2{margin-top:28px} main h3{margin:22px 0 6px;font-size:1.1rem}
-  </style>
-</head>
-<body data-theme="food">
-  <header class="page-head">
-    <a class="back" href="/">&larr; Og Sabha, DCSMAT Vagamon student hub</a>
-    <h1>DCSMAT Vagamon Mess Menu</h1>
-    <p class="lead">Menu valid from 26 October 2026 to December 2026. It may change with the supply of raw materials.</p>
-  </header>
-  <main>
-    <h2>Meal timings</h2>
-    <table>
-      <tr><th>Meal</th><th>Time (approx.)</th></tr>
-      <tr><td class="muted">Breakfast</td><td>7:30 AM to 9:00 AM</td></tr>
-      <tr><td class="muted">Lunch</td><td>12:30 PM to 2:00 PM</td></tr>
-      <tr><td class="muted">Snacks</td><td>4:30 PM to 5:30 PM</td></tr>
-      <tr><td class="muted">Dinner</td><td>7:30 PM to 9:00 PM</td></tr>
-    </table>
-    <section id="monday">
-    <h2>Monday mess menu</h2>
-    <table>
-      <tr><th>Meal</th><th>Menu</th></tr>
-      <tr><td class="muted">Breakfast</td><td>Idli, sambar, tomato chutney, tea</td></tr>
-      <tr><td class="muted">Lunch</td><td>Rice, thoran (cheera), ladyfinger &amp; potato, sambar, pappadam, mango pickle, semiya payasam</td></tr>
-      <tr><td class="muted">Snacks</td><td>Paripuvada, coffee</td></tr>
-      <tr><td class="muted">Dinner</td><td>Chappathi, egg curry, lemon tea (Veg: veg curry)</td></tr>
-    </table>
-    </section>
-    <section id="tuesday">
-    <h2>Tuesday mess menu</h2>
-    <table>
-      <tr><th>Meal</th><th>Menu</th></tr>
-      <tr><td class="muted">Breakfast</td><td>Poori, potato curry, tea</td></tr>
-      <tr><td class="muted">Lunch</td><td>Ghee rice, butter chicken, mango pickle, salad (Veg: paneer butter masala)</td></tr>
-      <tr><td class="muted">Snacks</td><td>Sugiyan, coffee</td></tr>
-      <tr><td class="muted">Dinner</td><td>Palappam, veg stew, tea</td></tr>
-    </table>
-    </section>
-    <section id="wednesday">
-    <h2>Wednesday mess menu</h2>
-    <table>
-      <tr><th>Meal</th><th>Menu</th></tr>
-      <tr><td class="muted">Breakfast</td><td>Puttu, kadala curry, banana, tea</td></tr>
-      <tr><td class="muted">Lunch</td><td>Rice, sambar, avial, pacha moru, egg, soya bean fry, pickle</td></tr>
-      <tr><td class="muted">Snacks</td><td>Cutlet, sauce, tea</td></tr>
-      <tr><td class="muted">Dinner</td><td>Rice, fish curry, thoran (cabbage), pulissery, pickle (Veg: cauliflower fry)</td></tr>
-    </table>
-    </section>
-    <section id="thursday">
-    <h2>Thursday mess menu</h2>
-    <table>
-      <tr><th>Meal</th><th>Menu</th></tr>
-      <tr><td class="muted">Breakfast</td><td>Palappam, egg curry, tea</td></tr>
-      <tr><td class="muted">Lunch</td><td>Rice, moru curry, vanpayar curry, pappadam, pineapple pachadi, rasam, pickle, payasam</td></tr>
-      <tr><td class="muted">Snacks</td><td>Samosa, tea</td></tr>
-      <tr><td class="muted">Dinner</td><td>Porotta, chicken curry (Veg: paneer masala), tea</td></tr>
-    </table>
-    </section>
-    <section id="friday">
-    <h2>Friday mess menu</h2>
-    <table>
-      <tr><th>Meal</th><th>Menu</th></tr>
-      <tr><td class="muted">Breakfast</td><td>Thattu dosa, sambar, chutney, tea</td></tr>
-      <tr><td class="muted">Lunch</td><td>Rice, chicken fry, pulissery, pickle (Veg: cauliflower fry)</td></tr>
-      <tr><td class="muted">Snacks</td><td>Banana fry, coffee</td></tr>
-      <tr><td class="muted">Dinner</td><td>Puttu, kadala curry, tea</td></tr>
-    </table>
-    </section>
-    <section id="saturday">
-    <h2>Saturday mess menu</h2>
-    <table>
-      <tr><th>Meal</th><th>Menu</th></tr>
-      <tr><td class="muted">Breakfast</td><td>Wheat battura, chana masala, tea</td></tr>
-      <tr><td class="muted">Lunch</td><td>Rice, fish curry, carrot thoran, pulissery, pickle (Veg: potato and ladyfinger)</td></tr>
-      <tr><td class="muted">Snacks</td><td>Ullivada, tea</td></tr>
-      <tr><td class="muted">Dinner</td><td>Masala dosa, chutney, sambar</td></tr>
-    </table>
-    </section>
-    <section id="sunday">
-    <h2>Sunday mess menu</h2>
-    <table>
-      <tr><th>Meal</th><th>Menu</th></tr>
-      <tr><td class="muted">Breakfast</td><td>Uppumavu, tea</td></tr>
-      <tr><td class="muted">Lunch</td><td>Malabari chicken biriyani / veg biriyani, salad, pickle, fruit salad (Veg: cauliflower fry)</td></tr>
-      <tr><td class="muted">Snacks</td><td>Uzhunnu vada, tea</td></tr>
-      <tr><td class="muted">Dinner</td><td>Rice / kanji, sambar, soya fry, thoran, pappadam, kondattam</td></tr>
-    </table>
-    </section>
-  </main>
-  <footer>
-    <p class="muted"><a href="/">Home</a> &middot; <a href="mess-menu.html">Mess menu</a> &middot; <a href="timetable.html">Class timetable</a></p>
-    <p class="muted">Made by UG 2026 students of DCSMAT, Vagamon. Not an official college site. Always confirm with the college.</p>
-  </footer>
-</body>
-</html>
+  ],
+  "days": {
+    "Sunday": {
+      "Breakfast": "Uppumavu, tea",
+      "Lunch": "Malabari chicken biriyani / veg biriyani, salad, pickle, fruit salad (Veg: cauliflower fry)",
+      "Snacks": "Uzhunnu vada, tea",
+      "Dinner": "Rice / kanji, sambar, soya fry, thoran, pappadam, kondattam"
+    },
+    "Monday": {
+      "Breakfast": "Idli, sambar, tomato chutney, tea",
+      "Lunch": "Rice, thoran (cheera), ladyfinger & potato, sambar, pappadam, mango pickle, semiya payasam",
+      "Snacks": "Paripuvada, coffee",
+      "Dinner": "Chappathi, egg curry, lemon tea (Veg: veg curry)"
+    },
+    "Tuesday": {
+      "Breakfast": "Poori, potato curry, tea",
+      "Lunch": "Ghee rice, butter chicken, mango pickle, salad (Veg: paneer butter masala)",
+      "Snacks": "Sugiyan, coffee",
+      "Dinner": "Palappam, veg stew, tea"
+    },
+    "Wednesday": {
+      "Breakfast": "Puttu, kadala curry, banana, tea",
+      "Lunch": "Rice, sambar, avial, pacha moru, egg, soya bean fry, pickle",
+      "Snacks": "Cutlet, sauce, tea",
+      "Dinner": "Rice, fish curry, thoran (cabbage), pulissery, pickle (Veg: cauliflower fry)"
+    },
+    "Thursday": {
+      "Breakfast": "Palappam, egg curry, tea",
+      "Lunch": "Rice, moru curry, vanpayar curry, pappadam, pineapple pachadi, rasam, pickle, payasam",
+      "Snacks": "Samosa, tea",
+      "Dinner": "Porotta, chicken curry (Veg: paneer masala), tea"
+    },
+    "Friday": {
+      "Breakfast": "Thattu dosa, sambar, chutney, tea",
+      "Lunch": "Rice, chicken fry, pulissery, pickle (Veg: cauliflower fry)",
+      "Snacks": "Banana fry, coffee",
+      "Dinner": "Puttu, kadala curry, tea"
+    },
+    "Saturday": {
+      "Breakfast": "Wheat battura, chana masala, tea",
+      "Lunch": "Rice, fish curry, carrot thoran, pulissery, pickle (Veg: potato and ladyfinger)",
+      "Snacks": "Ullivada, tea",
+      "Dinner": "Masala dosa, chutney, sambar"
+    }
+  }
+}
