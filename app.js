@@ -1,7 +1,7 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-app.js";
 import {
   getFirestore, collection, doc, setDoc, addDoc, updateDoc, deleteDoc, getDocs,
-  query, where, onSnapshot, serverTimestamp, increment
+  query, where, onSnapshot, serverTimestamp, increment, writeBatch
 } from "https://www.gstatic.com/firebasejs/10.14.1/firebase-firestore.js";
 import {
   getAuth, signInWithEmailAndPassword, signInAnonymously, signOut, onAuthStateChanged
@@ -24,6 +24,9 @@ const firebaseConfig = {
 // Add more words you want blocked on the wall (lowercase).
 const BAD_WORDS = ["idiot", "stupid", "slut", "bitch"];
 
+const MEAL_EMOJI = { Breakfast: "🍳", Lunch: "🍛", Snacks: "🍟", Dinner: "🌙" };
+const TAB_EMOJI = { food: ["🍛", "🍟", "🧁"], classes: ["📚", "✏️", "💡"], wall: ["💬", "🤫", "🌙"], gigs: ["🛠️", "💸", "🎨"] };
+
 /* --------------------------------------------------------------- */
 
 const ready = !firebaseConfig.apiKey.startsWith("PASTE");
@@ -41,9 +44,14 @@ const $ = (id) => document.getElementById(id);
 const DAYS = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
 const pad = (n) => String(n).padStart(2, "0");
 const toMin = (hhmm) => { const [h, m] = hhmm.split(":").map(Number); return h * 60 + m; };
-const nowMin = () => { const d = new Date(); return d.getHours() * 60 + d.getMinutes(); };
-const todayStr = () => { const d = new Date(); return `${d.getFullYear()}-${pad(d.getMonth() + 1)}-${pad(d.getDate())}`; };
-const todayName = () => DAYS[new Date().getDay()];
+// Always use college time (India), even if the phone is set to another time zone.
+const istParts = () => Object.fromEntries(
+  new Intl.DateTimeFormat("en-GB", { timeZone: "Asia/Kolkata", year: "numeric", month: "2-digit", day: "2-digit",
+    weekday: "long", hour: "2-digit", minute: "2-digit", hourCycle: "h23" })
+    .formatToParts(new Date()).map((p) => [p.type, p.value]));
+const nowMin = () => { const p = istParts(); return Number(p.hour) * 60 + Number(p.minute); };
+const todayStr = () => { const p = istParts(); return `${p.year}-${p.month}-${p.day}`; };
+const todayName = () => istParts().weekday;
 const fmt12 = (hhmm) => {
   const [h, m] = hhmm.split(":").map(Number);
   return `${h % 12 || 12}:${pad(m)} ${h >= 12 ? "PM" : "AM"}`;
@@ -52,11 +60,6 @@ const store = {
   get(k, fallback = null) { try { return localStorage.getItem(k) ?? fallback; } catch { return fallback; } },
   set(k, v) { try { localStorage.setItem(k, v); } catch { /* ignore */ } }
 };
-const deviceId = (() => {
-  let id = store.get("deviceId");
-  if (!id) { id = crypto.randomUUID(); store.set("deviceId", id); }
-  return id;
-})();
 
 // Builds DOM safely. Text is always set as text, never as HTML.
 function el(tag, props = {}, ...kids) {
@@ -76,9 +79,9 @@ let currentUser = null; // staff only (email login)
 let me = null;          // anyone signed in, including anonymous visitors
 let anonFailed = false;
 
-// Looks in data/ first, then the main folder, so it works wherever the JSON files were uploaded.
+// Looks in the main folder first, then data/, so it works wherever the JSON files were uploaded.
 async function loadJSON(name) {
-  for (const path of [`data/${name}`, name]) {
+  for (const path of [name, `data/${name}`]) {
     try { const r = await fetch(path); if (r.ok) return await r.json(); } catch { /* try next */ }
   }
   throw new Error(`Could not load ${name}`);
@@ -118,9 +121,10 @@ function renderNow() {
 /* ---------- tabs ---------- */
 document.querySelectorAll(".tab").forEach((btn) => {
   btn.addEventListener("click", () => {
-    document.querySelectorAll(".tab").forEach((b) => b.classList.toggle("active", b === btn));
+    document.querySelectorAll(".tab").forEach((b) => { b.classList.toggle("active", b === btn); b.setAttribute("aria-selected", String(b === btn)); });
     document.querySelectorAll(".panel").forEach((p) => p.classList.toggle("active", p.id === btn.dataset.tab));
     document.body.dataset.theme = btn.dataset.tab; // switches the whole look
+    history.replaceState(null, "", `#${btn.dataset.tab}`);
     const subs = {
       food: "Today's menu, what's being served now, and how it actually tastes.",
       classes: "Stay on top of your day: who is teaching, and where.",
@@ -211,10 +215,11 @@ function renderFood() {
 }
 
 async function rate(meal, stars) {
+  if (!me) { alert("Still connecting. Try again in a few seconds."); return; }
   const date = todayStr();
   try {
-    // One document per device per meal per day, so rating again just replaces your old rating.
-    await setDoc(doc(db, "ratings", `${date}_${meal}_${deviceId}`), { date, meal, stars });
+    // One document per visitor per meal per day (the rules check the id), so rating again replaces your old rating.
+    await setDoc(doc(db, "ratings", `${date}_${meal}_${me.uid}`), { date, meal, stars });
     store.set(`rated_${date}_${meal}`, stars);
     renderFood();
   } catch (e) {
@@ -289,7 +294,7 @@ function renderClasses() {
 
   const table = $("class-table");
   table.replaceChildren();
-  if (!slots.length) return;
+  if (!slots.length) { table.append(el("p", { class: "muted", text: "No classes scheduled today." })); return; }
 
   const tbl = el("table");
   slots.forEach((s) => {
@@ -350,6 +355,7 @@ function initWall() {
     const body = text.value.trim();
     if (!ready) { msg.textContent = "The wall is not connected yet."; return; }
     if (!body) return;
+    if (!me) { msg.textContent = anonFailed ? "Posting is unavailable right now." : "Still connecting. Try again in a few seconds."; return; }
 
     const last = Number(store.get("lastPost", 0));
     if (Date.now() - last < 60000) { msg.textContent = "Please wait a minute between posts."; return; }
@@ -448,7 +454,11 @@ function renderWall() {
 
 async function reportPost(id) {
   try {
-    await updateDoc(doc(db, "posts", id), { reports: increment(1) });
+    if (!me) throw new Error("not signed in");
+    const batch = writeBatch(db);
+    batch.set(doc(db, "posts", id, "reports", me.uid), { createdAt: serverTimestamp() });
+    batch.update(doc(db, "posts", id), { reports: increment(1) });
+    await batch.commit();
     const set = reportedSet(); set.add(id);
     store.set(reportedKey, JSON.stringify([...set]));
     renderWall();
@@ -646,7 +656,8 @@ function phoneLink(contact) {
   if (!/^[+\d\s-]{10,16}$/.test(contact.trim())) return null;
   const d = contact.replace(/\D/g, "");
   if (d.length < 10 || d.length > 13) return null;
-  return `https://wa.me/${d.length === 10 ? "91" + d : d}`;
+  const n = d.length === 11 && d.startsWith("0") ? d.slice(1) : d;
+  return `https://wa.me/${n.length === 10 ? "91" + n : n}`;
 }
 
 function gigCard(g, staff, reported) {
@@ -762,7 +773,11 @@ function renderGigs() {
 
 async function reportGig(id) {
   try {
-    await updateDoc(doc(db, "gigs", id), { reports: increment(1) });
+    if (!me) throw new Error("not signed in");
+    const batch = writeBatch(db);
+    batch.set(doc(db, "gigs", id, "reports", me.uid), { createdAt: serverTimestamp() });
+    batch.update(doc(db, "gigs", id), { reports: increment(1) });
+    await batch.commit();
     const set = reportedGigs(); set.add(id);
     store.set(reportedGigsKey, JSON.stringify([...set]));
     renderGigs();
@@ -848,9 +863,17 @@ document.querySelectorAll(".tab").forEach((b) =>
     h.classList.remove("pop"); void h.offsetWidth; h.classList.add("pop");
   }));
 
+// Deep links: /#classes, /#wall, /#gigs open that tab.
+const openFromHash = () => {
+  const t = location.hash.slice(1);
+  if (lines[t]) document.querySelector(`.tab[data-tab="${t}"]`)?.click();
+};
+openFromHash();
+addEventListener("hashchange", openFromHash);
+
 // Time-of-day greeting chip.
 (() => {
-  const h = new Date().getHours();
+  const h = Math.floor(nowMin() / 60);
   const hi = h < 5 ? "late night? 🦉" : h < 12 ? "good morning ☀️" : h < 17 ? "good afternoon 🌤️" : h < 21 ? "good evening 🌆" : "night owl 🌙";
   $("greet").textContent = `${hi} · ${todayName()}`;
 })();
@@ -896,8 +919,6 @@ document.querySelectorAll(".sticker").forEach((s) => {
 });
 
 /* ---------- emoji bursts (clicks, ratings, posting) ---------- */
-const MEAL_EMOJI = { Breakfast: "🍳", Lunch: "🍛", Snacks: "🍟", Dinner: "🌙" };
-const TAB_EMOJI = { food: ["🍛", "🍟", "🧁"], classes: ["📚", "✏️", "💡"], wall: ["💬", "🤫", "🌙"], gigs: ["🛠️", "💸", "🎨"] };
 
 function burst(x, y, emojis, n = 10) {
   if (matchMedia("(prefers-reduced-motion: reduce)").matches) return;
@@ -923,4 +944,4 @@ function noteColor(id) {
 }
 
 /* ---------- installable app (PWA) ---------- */
-if ("serviceWorker" in navigator) navigator.serviceWorker.register("sw.js");
+if ("serviceWorker" in navigator) addEventListener("load", () => navigator.serviceWorker.register("sw.js").catch(console.warn));
